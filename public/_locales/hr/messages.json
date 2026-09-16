@@ -87,7 +87,7 @@
     "message": "Tekst uspjeha"
   },
   "steps_hint": {
-    "message": "Kad se tekst uspjeha pojavi na stranici, sve je gotovo, koliko god koraka ostalo. Tekst gumba može biti i regex, npr. /^da\\b/ hvata „Da\" i „Da, podnesi prijavu\". Nakon klika korak je uspio ako se pojavi tekst uspjeha ili sljedeći gumb."
+    "message": "Tekst uspjeha nije obavezan: kad se pojavi na stranici, sve je gotovo, koliko god koraka ostalo. Tekst gumba može biti i regex, npr. /^da\\b/ hvata „Da\" i „Da, podnesi prijavu\". Ako se nakon klika ne pojavi sljedeći gumb, klik se ponavlja."
   },
   "arm_dry": {
     "message": "Aktiviraj PROBU u zadano vrijeme"
@@ -138,7 +138,7 @@
     "message": "čekaj gumb"
   },
   "advanced_hint": {
-    "message": "Ako se ne pojavi ni tekst uspjeha ni sljedeći gumb, klik se ponavlja do zadanog broja. Zadnji korak uvijek klikće samo jednom."
+    "message": "Ako se sljedeći gumb ne pojavi nakon klika, klik se ponavlja do zadanog broja. Zadnji korak uvijek klikće samo jednom."
   },
   "no_button_picked": {
     "message": "Nije odabran gumb"
@@ -221,9 +221,6 @@
   "how_next": {
     "message": "pojavio se sljedeći gumb"
   },
-  "how_none": {
-    "message": "bez provjere"
-  },
   "how_skipped": {
     "message": "preskočen, pojavljuje se tek nakon pravog klika"
   },
@@ -237,7 +234,7 @@
     "message": "označen"
   },
   "log_step_done": {
-    "message": "Korak $1: $2 u $3 (pokušaj $4, $5, $6)"
+    "message": "Korak $1: $2 u $3 (pokušaj $4, $5)"
   },
   "log_reloading": {
     "message": "Gumb 1 onemogućen, osvježavam stranicu ($1.)"
@@ -299,14 +296,11 @@
   "fail_not_found": {
     "message": "Gumb „$1\" nije pronađen ili nije omogućen unutar $2 ms"
   },
-  "fail_no_confirmation": {
-    "message": "Nakon $1 klikova nema potvrde (ni tekst uspjeha, ni sljedeći gumb)"
-  },
   "fail_button_gone": {
     "message": "Gumb „$1\" je nestao nakon klika i nije stigla potvrda"
   },
   "fail_manual_timeout": {
-    "message": "Nakon 90 s nema potvrde da je gumb pritisnut"
+    "message": "Gumb nije pritisnut unutar 90 s"
   },
   "err_no_date_header": {
     "message": "Nema Date zaglavlja s $1"
@@ -375,18 +369,18 @@
     "message": "English"
   },
   "warn_already_present": {
-    "message": "Korak $1: „$2\" je već na stranici, ne koristim ga kao potvrdu"
-  },
-  "fail_manual_no_check": {
-    "message": "Nema čime potvrditi klik: tekst uspjeha i sljedeći gumb već su na stranici"
+    "message": "Korak $1: „$2\" je već na stranici, zanemarujem ga"
   },
   "popup_reload_page": {
     "message": "Osvježi stranicu"
   },
-  "warn_no_confirmation": {
-    "message": "Korak $1: kliknut, ali potvrda se nije pojavila unutar $2 ms. Provjeri stranicu sam."
+  "fail_next_missing": {
+    "message": "Nakon $1 klikova sljedeći gumb se nije pojavio"
   },
-  "how_unconfirmed": {
-    "message": "bez potvrde"
+  "log_step_done_how": {
+    "message": "Korak $1: $2 u $3 (pokušaj $4, $5, $6)"
+  },
+  "how_human": {
+    "message": "pritisnuo si ti"
   }
 }

@@ -266,7 +266,6 @@ export class Runner {
     }
     const wait = this.deps.sleep ?? sleep;
     const checks = this.checksFor(index);
-    const hasCheck = this.hasCheck(checks);
     const isLast = index === this.task.steps.length - 1;
     const maxAttempts = isLast ? 1 : Math.max(1, step.maxAttempts);
     if (isLive && maxAttempts === 1) await this.deps.persist(null);
@@ -294,7 +293,8 @@ export class Runner {
         isFinal: false,
         satisfiedBy: 'none'
       };
-      if (!isLive || !hasCheck) return this.done(result, 'none');
+      if (!isLive || isLast || !this.hasCheck(checks))
+        return this.done(result, 'none');
       const outcome = await waitFor(() => this.satisfied(checks), {
         timeoutMs: step.settleMs,
         heartbeatMs: 30,
@@ -303,15 +303,7 @@ export class Runner {
       if (outcome) return this.done(result, outcome);
       if (signal.aborted) return null;
       if (attempts >= maxAttempts) {
-        if (isLast) {
-          this.deps.emit({
-            type: 'warning',
-            stepIndex: index,
-            reason: t('warn_no_confirmation', index + 1, step.settleMs)
-          });
-          return this.done(result, 'unconfirmed');
-        }
-        await this.fail(index, t('fail_no_confirmation', attempts));
+        await this.fail(index, t('fail_next_missing', attempts));
         return null;
       }
       await wait(step.retryIntervalMs);
@@ -339,6 +331,11 @@ export class Runner {
     signal: AbortSignal
   ): Promise<StepResult | null> {
     const shownAtServerMs = this.deps.serverNow();
+    let isPressed = false;
+    const onPress = () => {
+      isPressed = true;
+    };
+    found.el.addEventListener('click', onPress, { capture: true, once: true });
     this.deps.handOver(found.el);
     const result: StepResult = {
       stepIndex: index,
@@ -348,21 +345,20 @@ export class Runner {
       isFinal: false,
       satisfiedBy: 'none'
     };
-    if (!this.hasCheck(checks)) {
-      await this.fail(index, t('fail_manual_no_check'));
-      return null;
+    try {
+      const outcome = await waitFor<Satisfied | 'human'>(
+        () => (isPressed ? 'human' : this.satisfied(checks)),
+        { timeoutMs: MANUAL_WAIT_MS, heartbeatMs: 50, signal }
+      );
+      if (signal.aborted) return null;
+      if (!outcome) {
+        await this.fail(index, t('fail_manual_timeout'));
+        return null;
+      }
+      return this.done(result, outcome);
+    } finally {
+      found.el.removeEventListener('click', onPress, true);
     }
-    const outcome = await waitFor(() => this.satisfied(checks), {
-      timeoutMs: MANUAL_WAIT_MS,
-      heartbeatMs: 50,
-      signal
-    });
-    if (signal.aborted) return null;
-    if (!outcome) {
-      await this.fail(index, t('fail_manual_timeout'));
-      return null;
-    }
-    return this.done(result, outcome);
   }
 
   private async fail(stepIndex: number, reason: string): Promise<void> {

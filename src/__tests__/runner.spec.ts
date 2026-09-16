@@ -175,11 +175,9 @@ describe('Runner', () => {
     await finished(events);
     expect(confirmClicks).toBe(1);
     expect(events.at(-1)?.type).toBe('finished');
-    const warning = events.find(e => e.type === 'warning');
-    expect(warning && warning.type === 'warning' && warning.stepIndex).toBe(1);
   });
 
-  it('finishes a single step with a warning when nothing confirms the click', async () => {
+  it('finishes a single step right after its click, without waiting for any text', async () => {
     const { deps: d, events } = deps();
     const task = fastTask();
     task.steps = [task.steps[0]];
@@ -191,12 +189,12 @@ describe('Runner', () => {
     await runner.arm('live');
     await finished(events);
     expect(events.filter(e => e.type === 'click')).toHaveLength(1);
-    expect(events.some(e => e.type === 'warning')).toBe(true);
+    expect(events.some(e => e.type === 'warning')).toBe(false);
     const done = events.at(-1);
     expect(done?.type).toBe('finished');
     expect(
       done && done.type === 'finished' && done.results[0].satisfiedBy
-    ).toBe('unconfirmed');
+    ).toBe('none');
   });
 
   it('retries against a fresh ready target instead of the stale element', async () => {
@@ -368,9 +366,25 @@ describe('Runner', () => {
     await finished(events);
     expect(d.handOver).toHaveBeenCalledTimes(2);
     expect(events.at(-1)?.type).toBe('finished');
-    expect(document.getElementById('result')!.textContent).toBe(
-      'Prijava uspješno podnesena'
-    );
+    const done = events.at(-1);
+    expect(
+      done && done.type === 'finished' && done.results.map(r => r.satisfiedBy)
+    ).toEqual(['human', 'human']);
+  });
+
+  it('manual mode notices the human press even when the page shows nothing', async () => {
+    const { deps: d, events } = deps();
+    const task = fastTask();
+    task.steps = [task.steps[0]];
+    task.successText = '';
+    const submit = document.getElementById('submit')!;
+    submit.removeAttribute('disabled');
+    submit.replaceWith(submit.cloneNode(true));
+    setTimeout(() => document.getElementById('submit')!.click(), 60);
+    const runner = new Runner(task, Date.now(), d);
+    await runner.arm('manual');
+    await finished(events);
+    expect(events.at(-1)?.type).toBe('finished');
   });
 
   it('ignores confirmation text that was already on the page before the click', async () => {
@@ -391,19 +405,6 @@ describe('Runner', () => {
     expect(warnings).toHaveLength(1);
     const failed = events.find(e => e.type === 'failed');
     expect(failed && failed.type === 'failed' && failed.stepIndex).toBe(0);
-  });
-
-  it('manual mode fails fast when nothing can confirm the click', async () => {
-    const { deps: d, events } = deps();
-    const task = fastTask();
-    task.steps = [task.steps[0]];
-    task.successText = '';
-    document.getElementById('submit')!.removeAttribute('disabled');
-    const runner = new Runner(task, Date.now(), d);
-    await runner.arm('manual');
-    await finished(events);
-    expect(d.handOver).toHaveBeenCalledTimes(1);
-    expect(events.at(-1)?.type).toBe('failed');
   });
 
   it('stop aborts a waiting runner', async () => {

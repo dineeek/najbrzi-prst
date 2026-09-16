@@ -87,7 +87,7 @@
     "message": "Success text"
   },
   "steps_hint": {
-    "message": "When the success text appears on the page the run is over, however many steps remain. Button text can be a regex, e.g. /^yes\\b/ matches „Yes\" and „Yes, submit\". After a click a step counts as done when the success text or the next step's button shows up."
+    "message": "Success text is optional: when it appears on the page the run is over, however many steps remain. Button text can be a regex, e.g. /^yes\\b/ matches „Yes\" and „Yes, submit\". If the next button does not show up after a click, the click is repeated."
   },
   "arm_dry": {
     "message": "Arm DRY RUN at the set time"
@@ -138,7 +138,7 @@
     "message": "wait for button"
   },
   "advanced_hint": {
-    "message": "If neither the success text nor the next button appears, the click is repeated up to the given count. The last step always clicks once."
+    "message": "If the next button does not appear after the click, the click is repeated up to the given count. The last step always clicks once."
   },
   "no_button_picked": {
     "message": "No button picked"
@@ -221,9 +221,6 @@
   "how_next": {
     "message": "next button appeared"
   },
-  "how_none": {
-    "message": "no check"
-  },
   "how_skipped": {
     "message": "skipped, appears only after a real click"
   },
@@ -237,7 +234,7 @@
     "message": "highlighted"
   },
   "log_step_done": {
-    "message": "Step $1: $2 at $3 (attempt $4, $5, $6)"
+    "message": "Step $1: $2 at $3 (attempt $4, $5)"
   },
   "log_reloading": {
     "message": "Button 1 disabled, reloading the page ($1.)"
@@ -299,14 +296,11 @@
   "fail_not_found": {
     "message": "Button „$1\" not found or not enabled within $2 ms"
   },
-  "fail_no_confirmation": {
-    "message": "After $1 clicks no confirmation (no success text, no next button)"
-  },
   "fail_button_gone": {
     "message": "Button „$1\" disappeared after the click and no confirmation followed"
   },
   "fail_manual_timeout": {
-    "message": "No confirmation within 90 s that the button was pressed"
+    "message": "The button was not pressed within 90 s"
   },
   "err_no_date_header": {
     "message": "No Date header from $1"
@@ -375,18 +369,18 @@
     "message": "English"
   },
   "warn_already_present": {
-    "message": "Step $1: „$2\" is already on the page, not using it as confirmation"
-  },
-  "fail_manual_no_check": {
-    "message": "Nothing left to confirm the click: the success text and the next button are already on the page"
+    "message": "Step $1: „$2\" is already on the page, ignoring it"
   },
   "popup_reload_page": {
     "message": "Reload the page"
   },
-  "warn_no_confirmation": {
-    "message": "Step $1: clicked, but no confirmation appeared within $2 ms. Check the page yourself."
+  "fail_next_missing": {
+    "message": "After $1 clicks the next button did not appear"
   },
-  "how_unconfirmed": {
-    "message": "no confirmation seen"
+  "log_step_done_how": {
+    "message": "Step $1: $2 at $3 (attempt $4, $5, $6)"
+  },
+  "how_human": {
+    "message": "pressed by you"
   }
 }

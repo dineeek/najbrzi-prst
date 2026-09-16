@@ -94,12 +94,12 @@ function howSatisfied(result: StepResult): string {
       return t('how_success');
     case 'next':
       return t('how_next');
+    case 'human':
+      return t('how_human');
     case 'skipped':
       return t('how_skipped');
-    case 'unconfirmed':
-      return t('how_unconfirmed');
     default:
-      return t('how_none');
+      return '';
   }
 }
 
@@ -242,16 +242,24 @@ async function main(): Promise<void> {
               ? 'done_manual'
               : 'done_dry'
         );
+        const how = howSatisfied(event.result);
+        const via = t(
+          event.result.via === 'selector' ? 'via_selector' : 'via_text'
+        );
+        const at = formatClock(event.result.clickedAtServerMs);
+        const n = event.result.stepIndex + 1;
         overlay.log(
-          t(
-            'log_step_done',
-            event.result.stepIndex + 1,
-            verb,
-            formatClock(event.result.clickedAtServerMs),
-            event.result.attempts,
-            t(event.result.via === 'selector' ? 'via_selector' : 'via_text'),
-            howSatisfied(event.result)
-          ),
+          how
+            ? t(
+                'log_step_done_how',
+                n,
+                verb,
+                at,
+                event.result.attempts,
+                via,
+                how
+              )
+            : t('log_step_done', n, verb, at, event.result.attempts, via),
           'ok'
         );
         break;
