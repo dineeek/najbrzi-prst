@@ -140,7 +140,7 @@ Test page: clone https://github.com/dineeek/najbrzi-prst, run
 a minute ahead. Click the toolbar icon, press "Uključi na localhost:8765". The
 panel appears bottom right. Pick the „Podnesi prijavu" button with "Odaberi
 gumb", set the opening time to the same HH:MM:SS, and press "Aktiviraj RUČNO"
-or "Aktiviraj UŽIVO" (twice to confirm). Host permissions are optional and
+or "Aktiviraj UŽIVO". Host permissions are optional and
 granted per site by the user; no site is accessed before that.
 ```
 
