@@ -45,7 +45,8 @@ export interface StepResult {
   attempts: number;
   via: 'selector' | 'text';
   isFinal: boolean;
-  satisfiedBy: 'expect' | 'success' | 'next' | 'none' | 'skipped';
+  satisfiedBy:
+    'expect' | 'success' | 'next' | 'none' | 'skipped' | 'unconfirmed';
 }
 
 export interface ArmedState {

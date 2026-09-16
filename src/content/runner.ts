@@ -211,7 +211,7 @@ export class Runner {
 
   private done(
     result: StepResult,
-    satisfiedBy: Satisfied | 'skipped' | 'none'
+    satisfiedBy: StepResult['satisfiedBy']
   ): StepResult {
     result.satisfiedBy = satisfiedBy;
     result.isFinal = satisfiedBy === 'success';
@@ -322,7 +322,7 @@ export class Runner {
             stepIndex: index,
             reason: t('warn_no_confirmation', index + 1, step.settleMs)
           });
-          return this.done(result, 'none');
+          return this.done(result, 'unconfirmed');
         }
         await this.fail(index, t('fail_no_confirmation', attempts));
         return null;

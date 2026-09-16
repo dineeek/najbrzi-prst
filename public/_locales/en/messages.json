@@ -391,5 +391,8 @@
   },
   "warn_no_confirmation": {
     "message": "Step $1: clicked, but no confirmation appeared within $2 ms. Check the page yourself."
+  },
+  "how_unconfirmed": {
+    "message": "no confirmation seen"
   }
 }

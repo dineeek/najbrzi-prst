@@ -391,5 +391,8 @@
   },
   "warn_no_confirmation": {
     "message": "Korak $1: kliknut, ali potvrda se nije pojavila unutar $2 ms. Provjeri stranicu sam."
+  },
+  "how_unconfirmed": {
+    "message": "bez potvrde"
   }
 }

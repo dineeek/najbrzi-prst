@@ -196,7 +196,7 @@ describe('Runner', () => {
     expect(done?.type).toBe('finished');
     expect(
       done && done.type === 'finished' && done.results[0].satisfiedBy
-    ).toBe('none');
+    ).toBe('unconfirmed');
   });
 
   it('retries against a fresh ready target instead of the stale element', async () => {

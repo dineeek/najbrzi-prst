@@ -98,6 +98,8 @@ function howSatisfied(result: StepResult): string {
       return t('how_expect');
     case 'skipped':
       return t('how_skipped');
+    case 'unconfirmed':
+      return t('how_unconfirmed');
     default:
       return t('how_none');
   }
