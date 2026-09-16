@@ -115,6 +115,7 @@ async function main(): Promise<void> {
   let resyncTimer = 0;
   let finalResyncTimer = 0;
   let isReloading = false;
+  let isArming = false;
   let pendingResync: Promise<boolean> | null = null;
 
   const beep = (times: number) => {
@@ -390,25 +391,40 @@ async function main(): Promise<void> {
   }
 
   async function arm(mode: RunMode, isNow: boolean): Promise<void> {
+    if (isArming) return;
+    isArming = true;
+    overlay.setBusy(true);
+    try {
+      const isAllowed = await checkArm(mode, isNow);
+      if (!isAllowed) {
+        overlay.setArmed(null);
+        return;
+      }
+      await runner?.stop();
+      runner = makeRunner();
+      await runner.arm(mode, isNow);
+      if (!isNow) scheduleResync();
+    } finally {
+      isArming = false;
+    }
+  }
+
+  async function checkArm(mode: RunMode, isNow: boolean): Promise<boolean> {
     if (!isNow && Number.isNaN(overlay.fireAt)) {
       overlay.log(t('set_opening_time'), 'bad');
-      return;
+      return false;
     }
     if (!task.steps.some(step => step.target.selector || step.target.text)) {
       overlay.log(t('pick_at_least_one'), 'bad');
-      return;
+      return false;
     }
     if (!isNow && mode === 'live' && overlay.fireAt < clock.now() - 60_000) {
       overlay.log(t('opening_passed'), 'bad');
-      return;
+      return false;
     }
     if (!clock.sync || Date.now() - clock.sync.syncedAt > RESYNC_MS)
       await resync();
-    if (!warnAboutSync(mode)) return;
-    await runner?.stop();
-    runner = makeRunner();
-    await runner.arm(mode, isNow);
-    if (!isNow) scheduleResync();
+    return warnAboutSync(mode);
   }
 
   const armed = await loadArmed(origin);

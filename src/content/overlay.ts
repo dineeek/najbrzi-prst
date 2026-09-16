@@ -206,6 +206,11 @@ export class Overlay {
     this.resetLiveConfirm();
   }
 
+  setBusy(isBusy: boolean): void {
+    this.lockSettings(isBusy);
+    this.stopBtn.disabled = true;
+  }
+
   private lockSettings(isLocked: boolean): void {
     this.isLocked = isLocked;
     const keep = new Set<Element>([
@@ -410,10 +415,7 @@ export class Overlay {
 
     this.dryBtn = h(
       'button',
-      {
-        class: 'btn primary',
-        onClick: () => this.callbacks.onArm('dry', false)
-      },
+      { class: 'btn primary', onClick: () => this.requestArm('dry', false) },
       [t('arm_dry')]
     );
     this.liveBtn = h(
@@ -425,13 +427,13 @@ export class Overlay {
       'button',
       {
         class: 'btn primary',
-        onClick: () => this.callbacks.onArm('manual', false)
+        onClick: () => this.requestArm('manual', false)
       },
       [t('arm_manual')]
     );
     this.nowDryBtn = h(
       'button',
-      { class: 'btn', onClick: () => this.callbacks.onArm('dry', true) },
+      { class: 'btn', onClick: () => this.requestArm('dry', true) },
       [t('now_dry')]
     );
     this.nowLiveBtn = h(
@@ -688,11 +690,16 @@ export class Overlay {
     this.callbacks.onTaskChange(this.task);
   }
 
+  private requestArm(mode: RunMode, isNow: boolean): void {
+    this.setBusy(true);
+    this.callbacks.onArm(mode, isNow);
+  }
+
   private confirmLive(isNow: boolean): void {
     const btn = isNow ? this.nowLiveBtn : this.liveBtn;
     if (btn.dataset.confirm === '1') {
       this.resetLiveConfirm();
-      this.callbacks.onArm('live', isNow);
+      this.requestArm('live', isNow);
       return;
     }
     this.resetLiveConfirm();

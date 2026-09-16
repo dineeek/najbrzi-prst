@@ -91,6 +91,24 @@ describe('Overlay', () => {
     overlay.destroy();
   });
 
+  it('locks the buttons the moment an arm is requested and unlocks on refusal', () => {
+    const cb = callbacks();
+    const overlay = new Overlay(defaultTask(), cb);
+    overlay.mount();
+    const nowLive = overlay.root.querySelector<HTMLButtonElement>('.btn.warn')!;
+    nowLive.click();
+    nowLive.click();
+    expect(cb.onArm).toHaveBeenCalledTimes(1);
+    expect(nowLive.disabled).toBe(true);
+    expect(controls(overlay).date.disabled).toBe(true);
+    nowLive.click();
+    nowLive.click();
+    expect(cb.onArm).toHaveBeenCalledTimes(1);
+    overlay.setArmed(null);
+    expect(nowLive.disabled).toBe(false);
+    overlay.destroy();
+  });
+
   it('keeps the lock after a language rebuild while armed', () => {
     const overlay = new Overlay(defaultTask(), callbacks());
     overlay.mount();
