@@ -167,6 +167,9 @@ it to a GitHub release.
 - If a step fails, the panel says so and stops. Finish by hand.
 - Clicks are synthetic events. A page that checks `isTrusted` will ignore them;
   use manual mode there.
+- A button that opens a new tab or window needs a real user gesture, which a
+  scheduled click does not carry, so Chrome blocks the new tab. Buttons that
+  submit or change the page in place are fine. Use manual mode for the rest.
 - Buttons inside shadow DOM can be picked and clicked. The stored selector uses
   `>>>` between the host and the inner element.
 - Removing a site from the popup stops any armed run on that site's open tabs.
