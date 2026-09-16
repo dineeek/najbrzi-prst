@@ -316,6 +316,14 @@ export class Runner {
       if (outcome) return this.done(result, outcome);
       if (signal.aborted) return null;
       if (attempts >= maxAttempts) {
+        if (isLast) {
+          this.deps.emit({
+            type: 'warning',
+            stepIndex: index,
+            reason: t('warn_no_confirmation', index + 1, step.settleMs)
+          });
+          return this.done(result, 'none');
+        }
         await this.fail(index, t('fail_no_confirmation', attempts));
         return null;
       }

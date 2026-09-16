@@ -174,8 +174,29 @@ describe('Runner', () => {
     await runner.arm('live');
     await finished(events);
     expect(confirmClicks).toBe(1);
-    const failed = events.find(e => e.type === 'failed');
-    expect(failed && failed.type === 'failed' && failed.stepIndex).toBe(1);
+    expect(events.at(-1)?.type).toBe('finished');
+    const warning = events.find(e => e.type === 'warning');
+    expect(warning && warning.type === 'warning' && warning.stepIndex).toBe(1);
+  });
+
+  it('finishes a single step with a warning when nothing confirms the click', async () => {
+    const { deps: d, events } = deps();
+    const task = fastTask();
+    task.steps = [task.steps[0]];
+    task.steps[0].settleMs = 100;
+    const submit = document.getElementById('submit')!;
+    submit.removeAttribute('disabled');
+    submit.replaceWith(submit.cloneNode(true));
+    const runner = new Runner(task, Date.now(), d);
+    await runner.arm('live');
+    await finished(events);
+    expect(events.filter(e => e.type === 'click')).toHaveLength(1);
+    expect(events.some(e => e.type === 'warning')).toBe(true);
+    const done = events.at(-1);
+    expect(done?.type).toBe('finished');
+    expect(
+      done && done.type === 'finished' && done.results[0].satisfiedBy
+    ).toBe('none');
   });
 
   it('retries against a fresh ready target instead of the stale element', async () => {
