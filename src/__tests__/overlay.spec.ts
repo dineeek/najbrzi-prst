@@ -62,6 +62,35 @@ describe('Overlay', () => {
     overlay.destroy();
   });
 
+  it('shows refusals and warnings next to the buttons, not only in the log', () => {
+    const overlay = new Overlay(defaultTask(), callbacks());
+    overlay.mount();
+    const notice = overlay.root.querySelector('.notice')!;
+    expect(notice.textContent).toBe('');
+    overlay.log('Postavi datum i vrijeme otvaranja', 'bad');
+    expect(notice.textContent).toBe('Postavi datum i vrijeme otvaranja');
+    expect(notice.className).toBe('notice bad');
+    overlay.log('samo u dnevnik', 'ok');
+    expect(notice.textContent).toBe('Postavi datum i vrijeme otvaranja');
+    overlay.destroy();
+  });
+
+  it('asks for a second press on the live button and says so', () => {
+    const cb = callbacks();
+    const overlay = new Overlay(defaultTask(), cb);
+    overlay.mount();
+    const live = overlay.root.querySelector<HTMLButtonElement>('.btn.danger')!;
+    live.click();
+    expect(cb.onArm).not.toHaveBeenCalled();
+    expect(live.textContent).toBe('Klikni ponovno za potvrdu UŽIVO');
+    expect(overlay.root.querySelector('.notice')!.textContent).toBe(
+      'Klikni ponovno za potvrdu UŽIVO'
+    );
+    live.click();
+    expect(cb.onArm).toHaveBeenCalledWith('live', false);
+    overlay.destroy();
+  });
+
   it('keeps the lock after a language rebuild while armed', () => {
     const overlay = new Overlay(defaultTask(), callbacks());
     overlay.mount();

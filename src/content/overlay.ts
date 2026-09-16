@@ -48,6 +48,7 @@ function h<K extends keyof HTMLElementTagNameMap>(
 export const HOST_ID = 'najbrzi-prst';
 const LOG_KEY = 'najbrzi-prst:log';
 const LIVE_CONFIRM_MS = 6000;
+const NOTICE_MS = 8000;
 const LOG_LINES = 40;
 
 export class Overlay {
@@ -74,6 +75,8 @@ export class Overlay {
   private stopBtn!: HTMLButtonElement;
   private languageSelect!: HTMLSelectElement;
   private collapseBtn!: HTMLButtonElement;
+  private notice!: HTMLDivElement;
+  private noticeTimer = 0;
   private isLocked = false;
   private fireAtMs = NaN;
   private liveConfirmTimer = 0;
@@ -218,7 +221,17 @@ export class Overlay {
       if (!keep.has(control)) control.disabled = isLocked;
   }
 
+  showNotice(text: string, kind: 'bad' | 'warn' | '' = ''): void {
+    clearTimeout(this.noticeTimer);
+    this.notice.textContent = text;
+    this.notice.className = `notice ${kind}`;
+    this.noticeTimer = window.setTimeout(() => {
+      this.notice.textContent = '';
+    }, NOTICE_MS);
+  }
+
   log(line: string, kind: 'ok' | 'bad' | 'warn' | '' = ''): void {
+    if (kind === 'bad' || kind === 'warn') this.showNotice(line, kind);
     const stamp = formatClock(this.callbacks.now());
     const entry = `${stamp} ${line}`;
     this.lines.push(kind ? `${kind}|${entry}` : entry);
@@ -435,6 +448,7 @@ export class Overlay {
       },
       [t('stop')]
     );
+    this.notice = h('div', { class: 'notice' });
     const actions = h('div', { class: 'section' }, [
       this.manualBtn,
       h('div', { class: 'actions' }, [
@@ -444,6 +458,7 @@ export class Overlay {
         this.liveBtn
       ]),
       this.stopBtn,
+      this.notice,
       h('div', { class: 'hint' }, [t('actions_hint')])
     ]);
 
@@ -683,6 +698,7 @@ export class Overlay {
     this.resetLiveConfirm();
     btn.dataset.confirm = '1';
     btn.textContent = t(isNow ? 'confirm_live_now' : 'confirm_live');
+    this.showNotice(t(isNow ? 'confirm_live_now' : 'confirm_live'), 'warn');
     this.liveConfirmTimer = window.setTimeout(
       () => this.resetLiveConfirm(),
       LIVE_CONFIRM_MS

@@ -64,6 +64,10 @@ details summary { cursor: pointer; color: #8b949e; font-size: 12px; }
 .log { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; color: #9da7b3; background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 6px 8px; max-height: 130px; overflow: auto; white-space: pre-wrap; }
 .log .ok { color: #56d364; } .log .bad { color: #ff7b72; } .log .warn { color: #d29922; }
 .hint { font-size: 11px; color: #6e7681; }
+.notice { font-size: 12px; font-weight: 600; padding: 6px 8px; border-radius: 6px; background: #161b22; border: 1px solid #30363d; }
+.notice:empty { display: none; }
+.notice.bad { color: #ff7b72; border-color: #f85149; }
+.notice.warn { color: #ffd33d; border-color: #9e6a03; }
 .flash { position: fixed; z-index: 2147483647; pointer-events: none; border: 3px solid #ffd33d; border-radius: 6px; box-shadow: 0 0 0 4px rgba(255, 211, 61, 0.35), 0 0 24px rgba(255, 211, 61, 0.7); animation: flash 1.2s ease-out forwards; }
 @keyframes flash { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
 .pick-shield { position: fixed; inset: 0; z-index: 2147483646; cursor: crosshair; background: transparent; }
