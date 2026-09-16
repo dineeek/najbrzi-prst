@@ -80,7 +80,9 @@ right of that site from then on. Remove a site from the same popup.
 6. Ten minutes before opening arm the mode you want. Live mode asks for a second
    click to confirm. Keep the tab visible and the window focused. The panel
    holds a screen wake lock while armed.
-7. "ZAUSTAVI" / "STOP" or `Esc` disarms at any time.
+7. While armed every setting is locked, only STOP, Sync and the language switch
+   stay active. "ZAUSTAVI" / "STOP" or `Esc` disarms at any time and unlocks
+   them.
 
 On `efzoeu.gov.hr` and `fondovi.gov.hr` the steps come prefilled from the
 official eFZOEU manual: step 1 „Podnesi prijavu" expects „Jeste li sigurni",

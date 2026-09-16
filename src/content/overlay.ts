@@ -72,6 +72,9 @@ export class Overlay {
   private nowDryBtn!: HTMLButtonElement;
   private nowLiveBtn!: HTMLButtonElement;
   private stopBtn!: HTMLButtonElement;
+  private languageSelect!: HTMLSelectElement;
+  private collapseBtn!: HTMLButtonElement;
+  private isLocked = false;
   private fireAtMs = NaN;
   private liveConfirmTimer = 0;
   private stateTimer = 0;
@@ -155,7 +158,11 @@ export class Overlay {
     const clock = formatClock(serverNowMs);
     this.timeMain.data = clock.slice(0, 8);
     this.timeMillis.textContent = clock.slice(8);
-    const dateLine = t('clock_meta', formatDate(serverNowMs), location.host);
+    const dateLine = t(
+      'clock_meta',
+      formatDate(serverNowMs, ZONE, getLanguage()),
+      location.host
+    );
     if (dateLine !== this.lastDateLine) {
       this.lastDateLine = dateLine;
       this.dateEl.textContent = dateLine;
@@ -191,16 +198,24 @@ export class Overlay {
             : 'badge_dry'
       );
     }
-    for (const btn of [
-      this.dryBtn,
-      this.manualBtn,
-      this.liveBtn,
-      this.nowDryBtn,
-      this.nowLiveBtn
-    ])
-      btn.disabled = isArmed;
+    this.lockSettings(isArmed);
     this.stopBtn.disabled = !isArmed;
     this.resetLiveConfirm();
+  }
+
+  private lockSettings(isLocked: boolean): void {
+    this.isLocked = isLocked;
+    const keep = new Set<Element>([
+      this.stopBtn,
+      this.syncBtn,
+      this.languageSelect,
+      this.collapseBtn
+    ]);
+    const controls = this.panel.querySelectorAll<
+      HTMLInputElement | HTMLButtonElement | HTMLSelectElement
+    >('input, select, button');
+    for (const control of controls)
+      if (!keep.has(control)) control.disabled = isLocked;
   }
 
   log(line: string, kind: 'ok' | 'bad' | 'warn' | '' = ''): void {
@@ -231,7 +246,7 @@ export class Overlay {
   private build(): void {
     this.badge = h('span', { class: 'badge' }, [t('badge_idle')]);
     this.pillClock = h('span', { class: 'pill' });
-    const collapse = h(
+    this.collapseBtn = h(
       'button',
       {
         class: 'icon-btn',
@@ -240,23 +255,23 @@ export class Overlay {
       },
       ['▾']
     );
-    const language = h('select', {
+    this.languageSelect = h('select', {
       class: 'lang',
       title: t('language_label'),
       onChange: () =>
-        this.callbacks.onLanguageChange(language.value as Language)
+        this.callbacks.onLanguageChange(this.languageSelect.value as Language)
     });
     for (const code of LANGUAGES) {
       const option = h('option', { value: code }, [code.toUpperCase()]);
       option.selected = code === getLanguage();
-      language.append(option);
+      this.languageSelect.append(option);
     }
     const head = h('div', { class: 'head' }, [
       h('span', { class: 'title' }, [t('panel_title')]),
       this.pillClock,
       this.badge,
-      language,
-      collapse
+      this.languageSelect,
+      this.collapseBtn
     ]);
 
     this.timeMillis = h('small');
@@ -480,6 +495,7 @@ export class Overlay {
       ...this.task.steps.map((step, index) => this.stepRow(step, index))
     );
     this.refreshStepStates();
+    if (this.isLocked) this.lockSettings(true);
   }
 
   private stepRow(step: Step, index: number): HTMLElement {

@@ -26,16 +26,17 @@ function partFormatter(zone: string): Intl.DateTimeFormat {
   return formatter;
 }
 
-function dateFormatter(zone: string): Intl.DateTimeFormat {
-  let formatter = dateFormatters.get(zone);
+function dateFormatter(zone: string, locale: string): Intl.DateTimeFormat {
+  const key = `${locale}|${zone}`;
+  let formatter = dateFormatters.get(key);
   if (!formatter) {
-    formatter = new Intl.DateTimeFormat(LOCALE, {
+    formatter = new Intl.DateTimeFormat(locale, {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
       timeZone: zone
     });
-    dateFormatters.set(zone, formatter);
+    dateFormatters.set(key, formatter);
   }
   return formatter;
 }
@@ -90,8 +91,12 @@ export function formatClock(epochMs: number, zone = ZONE): string {
   return `${pad(p.hour)}:${pad(p.minute)}:${pad(p.second)}.${String(millis).padStart(3, '0')}`;
 }
 
-export function formatDate(epochMs: number, zone = ZONE): string {
-  return dateFormatter(zone).format(new Date(epochMs));
+export function formatDate(
+  epochMs: number,
+  zone = ZONE,
+  locale = LOCALE
+): string {
+  return dateFormatter(zone, locale).format(new Date(epochMs));
 }
 
 export function formatCountdown(remainingMs: number): string {
