@@ -1,0 +1,42 @@
+{
+  "name": "najbrzi-prst",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome extension that clicks a chosen button at an exact server-synced second: clock sync, element picker, countdown, dry run and manual mode",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "clean": "rm -rf dist",
+    "zip": "npm run build && rm -f najbrzi-prst.zip && cd dist && zip -qr ../najbrzi-prst.zip . -x '.DS_Store'",
+    "style": "prettier --write \"src/**/*.ts\" \"*.html\" \"test/**/*.html\" \"public/_locales/**/*.json\"",
+    "lint": "prettier --check \"src/**/*.ts\" \"public/_locales/**/*.json\" && eslint \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "fixture": "python3 -m http.server 8765 --directory test/fixture",
+    "icons": "python3 scripts/make-icons.py",
+    "fixture:bundle": "npm run build && node scripts/bundle-fixture.mjs"
+  },
+  "author": "Dino Klicek",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dineeek/najbrzi-prst.git"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.4.0",
+    "@types/chrome": "^0.1.0",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "jsdom": "^29.0.1",
+    "prettier": "^3.6.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.58.0",
+    "vite": "^8.0.3",
+    "vitest": "^4.1.2"
+  }
+}

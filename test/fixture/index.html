@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fixture: timed submit</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 40px;
+        color: #222;
+      }
+      .ant-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: 1px solid #999;
+        background: #eee;
+        font-size: 16px;
+      }
+      .ant-btn-primary:not([disabled]) {
+        background: #1677ff;
+        color: #fff;
+        border-color: #1677ff;
+        cursor: pointer;
+      }
+      .ant-btn[disabled] {
+        color: #999;
+        cursor: not-allowed;
+      }
+      .ant-modal-mask {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: none;
+      }
+      .ant-modal {
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fff;
+        padding: 24px;
+        border-radius: 8px;
+        width: 420px;
+        display: none;
+      }
+      .ant-modal.open,
+      .ant-modal-mask.open {
+        display: block;
+      }
+      .ant-modal-footer {
+        margin-top: 16px;
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+      #result {
+        margin-top: 24px;
+        font-size: 18px;
+      }
+      #log {
+        margin-top: 16px;
+        font-family: monospace;
+        white-space: pre-wrap;
+      }
+      code {
+        background: #f4f4f4;
+        padding: 2px 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Public call, fixture</h1>
+    <p>
+      The button becomes enabled at <code id="opensAt"></code> (local time).
+      Parameters: <code>?at=HH:MM:SS</code> (default: now + 20 s),
+      <code>&amp;mode=reload</code> (the button state is computed only on page
+      load, as if the server decided), <code>&amp;bundle=1</code> (loads the
+      built content script with a storage shim, see
+      <code>npm run fixture:bundle</code>), <code>&amp;lang=hr</code> (eFZOEU
+      wording).
+    </p>
+    <p id="status">Submission is not open yet.</p>
+    <button class="ant-btn ant-btn-primary" id="submit" disabled>
+      <span id="submitText">Submit application</span>
+    </button>
+    <div class="ant-modal-mask" id="mask"></div>
+    <div class="ant-modal" id="modal" role="dialog">
+      <p id="question">Are you sure you want to submit the application?</p>
+      <div class="ant-modal-footer">
+        <button class="ant-btn" id="cancel">
+          <span id="cancelText">No, take me back</span>
+        </button>
+        <button class="ant-btn ant-btn-primary" id="confirm">
+          <span id="confirmText">Yes, submit</span>
+        </button>
+      </div>
+    </div>
+    <div id="result"></div>
+    <div id="log"></div>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const mode = params.get('mode') || 'live';
+      const words =
+        params.get('lang') === 'hr'
+          ? {
+              closed: 'Podnošenje prijave još nije omogućeno.',
+              open: 'Podnošenje prijave omogućeno',
+              submit: 'Podnesi prijavu',
+              question: 'Jeste li sigurni da želite podnijeti prijavu?',
+              cancel: 'Ne, vrati me natrag',
+              confirm: 'Da, podnesi prijavu',
+              done: 'Prijava uspješno podnesena'
+            }
+          : {
+              closed: 'Submission is not open yet.',
+              open: 'Submission is open',
+              submit: 'Submit application',
+              question: 'Are you sure you want to submit the application?',
+              cancel: 'No, take me back',
+              confirm: 'Yes, submit',
+              done: 'Application submitted successfully'
+            };
+      document.getElementById('submitText').textContent = words.submit;
+      document.getElementById('question').textContent = words.question;
+      document.getElementById('cancelText').textContent = words.cancel;
+      document.getElementById('confirmText').textContent = words.confirm;
+      document.getElementById('status').textContent = words.closed;
+      if (params.get('bundle')) {
+        const bundle = document.createElement('script');
+        bundle.src = '/_bundle.js';
+        document.head.append(bundle);
+      }
+      const at = params.get('at');
+      const opensAt = new Date();
+      if (at) {
+        const [h, m, s] = at.split(':').map(Number);
+        opensAt.setHours(h, m, s || 0, 0);
+      } else {
+        opensAt.setTime(opensAt.getTime() + 20000);
+      }
+      const submit = document.getElementById('submit');
+      const status = document.getElementById('status');
+      const log = document.getElementById('log');
+      const clock = d =>
+        d.toTimeString().slice(0, 8) +
+        '.' +
+        String(d.getMilliseconds()).padStart(3, '0');
+      document.getElementById('opensAt').textContent = clock(opensAt);
+      let enabledAt = null;
+      const enable = () => {
+        if (enabledAt) return;
+        enabledAt = new Date();
+        submit.removeAttribute('disabled');
+        status.textContent = words.open;
+        log.textContent += 'enabled at ' + clock(enabledAt) + '\n';
+      };
+      if (mode === 'reload') {
+        if (Date.now() >= opensAt.getTime()) enable();
+      } else {
+        const tick = () => {
+          if (Date.now() >= opensAt.getTime()) enable();
+          else setTimeout(tick, 5);
+        };
+        tick();
+      }
+      submit.addEventListener('click', () => {
+        if (submit.hasAttribute('disabled')) return;
+        const now = new Date();
+        log.textContent +=
+          'submit clicked at ' +
+          clock(now) +
+          ' (+' +
+          (now - enabledAt) +
+          ' ms after enable)\n';
+        document.getElementById('mask').classList.add('open');
+        document.getElementById('modal').classList.add('open');
+      });
+      document.getElementById('cancel').addEventListener('click', () => {
+        document.getElementById('mask').classList.remove('open');
+        document.getElementById('modal').classList.remove('open');
+      });
+      document.getElementById('confirm').addEventListener('click', () => {
+        const now = new Date();
+        document.getElementById('mask').classList.remove('open');
+        document.getElementById('modal').classList.remove('open');
+        submit.setAttribute('disabled', '');
+        document.getElementById('result').textContent =
+          words.done +
+          ' ' +
+          clock(now) +
+          ' (+' +
+          (now - enabledAt) +
+          ' ms after enable)';
+        log.textContent += 'confirmed at ' + clock(now) + '\n';
+      });
+    </script>
+  </body>
+</html>

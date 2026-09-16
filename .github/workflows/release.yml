@@ -1,0 +1,42 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test
+      - run: npm run zip
+
+      - name: Check that the tag matches package.json
+        run: |
+          expected="v$(node -p "require('./package.json').version")"
+          test "$GITHUB_REF_NAME" = "$expected" || { echo "tag $GITHUB_REF_NAME != $expected"; exit 1; }
+
+      - name: Publish GitHub release
+        run: |
+          mv najbrzi-prst.zip "najbrzi-prst-$GITHUB_REF_NAME.zip"
+          gh release create "$GITHUB_REF_NAME" "najbrzi-prst-$GITHUB_REF_NAME.zip" \
+            --title "$GITHUB_REF_NAME" \
+            --notes "Unpacked Chrome extension build. Unzip, open chrome://extensions, enable Developer mode, Load unpacked, pick the folder."
+        env:
+          GH_TOKEN: ${{ github.token }}

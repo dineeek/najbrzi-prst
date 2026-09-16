@@ -1,0 +1,395 @@
+{
+  "ext_name": {
+    "message": "Fastest Finger"
+  },
+  "ext_description": {
+    "message": "Click a chosen button at an exact server-synced second. Clock sync, element picker, countdown."
+  },
+  "panel_title": {
+    "message": "⚡ Fastest Finger"
+  },
+  "badge_idle": {
+    "message": "IDLE"
+  },
+  "badge_done": {
+    "message": "DONE"
+  },
+  "badge_live": {
+    "message": "LIVE"
+  },
+  "badge_manual": {
+    "message": "MANUAL"
+  },
+  "badge_dry": {
+    "message": "DRY RUN"
+  },
+  "mode_live": {
+    "message": "LIVE"
+  },
+  "mode_manual": {
+    "message": "MANUAL"
+  },
+  "mode_dry": {
+    "message": "DRY RUN"
+  },
+  "collapse_title": {
+    "message": "Show / hide"
+  },
+  "sync_none": {
+    "message": "Clock is not synced with the server"
+  },
+  "sync_button": {
+    "message": "Sync"
+  },
+  "sync_busy": {
+    "message": "Syncing…"
+  },
+  "sync_status": {
+    "message": "Your clock is $1 from the server (±$2 s, RTT $3 ms)"
+  },
+  "clock_meta": {
+    "message": "$1 · server time of $2"
+  },
+  "countdown_unset": {
+    "message": "Set the opening time"
+  },
+  "timing_heading": {
+    "message": "Opening ($1)"
+  },
+  "timing_offset": {
+    "message": "offset"
+  },
+  "ms": {
+    "message": "ms"
+  },
+  "reload_label": {
+    "message": "Reload the page if button 1 is still disabled after"
+  },
+  "reload_then": {
+    "message": "ms, then every"
+  },
+  "reload_max": {
+    "message": "ms, at most"
+  },
+  "reload_times": {
+    "message": "times"
+  },
+  "timing_hint": {
+    "message": "Offset: negative fires earlier, positive later than the exact server time. Reload applies to live and manual mode."
+  },
+  "steps_heading": {
+    "message": "Steps (clicks in order)"
+  },
+  "add_step": {
+    "message": "+ Add step"
+  },
+  "success_text_label": {
+    "message": "Success text"
+  },
+  "steps_hint": {
+    "message": "When the success text appears on the page the run is over, however many steps remain. Button text can be a regex, e.g. /^yes\\b/ matches „Yes\" and „Yes, submit\". After a click a step counts as done when the expected text, the success text or the next button shows up."
+  },
+  "arm_dry": {
+    "message": "Arm DRY RUN at the set time"
+  },
+  "arm_live": {
+    "message": "Arm LIVE at the set time"
+  },
+  "arm_manual": {
+    "message": "Arm MANUAL: countdown + focus, you click"
+  },
+  "now_dry": {
+    "message": "Dry run now"
+  },
+  "now_live": {
+    "message": "LIVE now"
+  },
+  "stop": {
+    "message": "■ STOP (Esc)"
+  },
+  "actions_hint": {
+    "message": "Manual: at the exact second the panel flashes, beeps and focuses the button, you press Enter or click. Dry run only highlights the buttons. Live clicks for you. Some sites forbid automated submissions, read their terms first. Keep the tab visible and the window focused."
+  },
+  "pick_button": {
+    "message": "Pick button"
+  },
+  "show_button": {
+    "message": "Show"
+  },
+  "remove_step_title": {
+    "message": "Remove step"
+  },
+  "button_text_label": {
+    "message": "Button text"
+  },
+  "advanced": {
+    "message": "advanced"
+  },
+  "expect_label": {
+    "message": "After the click expect text"
+  },
+  "max_clicks": {
+    "message": "max clicks"
+  },
+  "retry_gap": {
+    "message": "gap"
+  },
+  "wait_text": {
+    "message": "wait for text"
+  },
+  "wait_button": {
+    "message": "wait for button"
+  },
+  "advanced_hint": {
+    "message": "If the expected text does not appear the click is repeated up to the given count. The last step always clicks once."
+  },
+  "no_button_picked": {
+    "message": "No button picked"
+  },
+  "by_text": {
+    "message": "search by text"
+  },
+  "target_prefix": {
+    "message": "Target: "
+  },
+  "state_missing_first": {
+    "message": "● Button is not on the page right now"
+  },
+  "state_missing_later": {
+    "message": "○ Button not on the page yet (appears later)"
+  },
+  "via_selector": {
+    "message": "selector"
+  },
+  "via_text": {
+    "message": "text"
+  },
+  "state_ready": {
+    "message": "● Found, enabled ($1)"
+  },
+  "state_disabled": {
+    "message": "● Found, disabled ($1)"
+  },
+  "state_hidden": {
+    "message": "○ Found, but hidden ($1)"
+  },
+  "test_not_found": {
+    "message": "Step $1: button not found on the page"
+  },
+  "test_found": {
+    "message": "Step $1: found $2 „$3\" ($4), $5"
+  },
+  "enabled": {
+    "message": "enabled"
+  },
+  "disabled": {
+    "message": "disabled"
+  },
+  "step_default_label": {
+    "message": "Step $1"
+  },
+  "keep_one_step": {
+    "message": "At least one step must remain"
+  },
+  "confirm_live_now": {
+    "message": "Click again for LIVE now"
+  },
+  "confirm_live": {
+    "message": "Click again to confirm LIVE"
+  },
+  "log_synced": {
+    "message": "Clock synced: offset $1 s, ±$2 s"
+  },
+  "log_sync_failed": {
+    "message": "Sync failed: $1"
+  },
+  "log_sync_old": {
+    "message": "Using a sync from $1 min ago, a fresh one failed"
+  },
+  "log_sync_coarse": {
+    "message": "Sync is coarse (±$1 s), the click may land off by that much"
+  },
+  "log_pick_cancelled": {
+    "message": "Pick cancelled"
+  },
+  "log_picked": {
+    "message": "Step $1: picked $2 „$3\""
+  },
+  "log_armed": {
+    "message": "$1 armed, firing at $2"
+  },
+  "log_step_waiting": {
+    "message": "Step $1: waiting for the button…"
+  },
+  "log_click": {
+    "message": "Step $1: click $2 at $3"
+  },
+  "how_success": {
+    "message": "success text"
+  },
+  "how_next": {
+    "message": "next button appeared"
+  },
+  "how_expect": {
+    "message": "expected text"
+  },
+  "how_none": {
+    "message": "no check"
+  },
+  "how_skipped": {
+    "message": "skipped, appears only after a real click"
+  },
+  "done_live": {
+    "message": "clicked"
+  },
+  "done_manual": {
+    "message": "handed to you"
+  },
+  "done_dry": {
+    "message": "highlighted"
+  },
+  "log_step_done": {
+    "message": "Step $1: $2 at $3 (attempt $4, $5, $6)"
+  },
+  "log_reloading": {
+    "message": "Button 1 disabled, reloading the page ($1.)"
+  },
+  "log_finished": {
+    "message": "DONE: all steps completed ($1)"
+  },
+  "notify_finished": {
+    "message": "All steps completed."
+  },
+  "log_failed": {
+    "message": "FAILED, step $1: $2"
+  },
+  "notify_failed": {
+    "message": "Step $1 failed. Continue by hand."
+  },
+  "log_stopped": {
+    "message": "Stopped"
+  },
+  "wake_lock_on": {
+    "message": "Screen stays awake while armed"
+  },
+  "wake_lock_off": {
+    "message": "Screen wake lock unavailable, do not let the computer sleep"
+  },
+  "session_lost_log": {
+    "message": "Session expired! Log in again and re-arm."
+  },
+  "session_lost_notify": {
+    "message": "Session expired. Log in again."
+  },
+  "hand_over": {
+    "message": "NOW! Press Enter or click the focused button"
+  },
+  "set_opening_time": {
+    "message": "Set the opening date and time"
+  },
+  "pick_at_least_one": {
+    "message": "Pick at least one button"
+  },
+  "opening_passed": {
+    "message": "The opening time has passed. Use „LIVE now\" or set a new time."
+  },
+  "no_sync_refuse": {
+    "message": "Clock is not synced with the server, refusing to arm $1. Press Sync and try again."
+  },
+  "stale_past": {
+    "message": "Old armed state discarded: the opening time has passed"
+  },
+  "stale_discarded": {
+    "message": "Old armed state discarded"
+  },
+  "resuming": {
+    "message": "Resuming after reload (step $1, reloaded $2×)"
+  },
+  "tab_hidden": {
+    "message": "Tab is not visible! Chrome throttles timers in the background, come back to this tab."
+  },
+  "fail_not_found": {
+    "message": "Button „$1\" not found or not enabled within $2 ms"
+  },
+  "fail_no_confirmation": {
+    "message": "After $1 clicks no confirmation (no expected text, no success text, no next button)"
+  },
+  "fail_button_gone": {
+    "message": "Button „$1\" disappeared after the click and no confirmation followed"
+  },
+  "fail_manual_timeout": {
+    "message": "No confirmation within 90 s that the button was pressed"
+  },
+  "err_no_date_header": {
+    "message": "No Date header from $1"
+  },
+  "err_bad_date_header": {
+    "message": "Invalid Date header: $1"
+  },
+  "err_sync_unreachable": {
+    "message": "No probe URL on $1 returned a Date header"
+  },
+  "pick_banner": {
+    "message": "Click the button to press · Esc to cancel"
+  },
+  "popup_not_a_site": {
+    "message": "Open a website tab to use Fastest Finger."
+  },
+  "popup_not_enabled": {
+    "message": "Not enabled on $1. Enable it and the panel appears on the page."
+  },
+  "popup_enable_here": {
+    "message": "Enable on $1"
+  },
+  "popup_remove_here": {
+    "message": "Remove $1"
+  },
+  "popup_enabled_sites": {
+    "message": "Enabled sites"
+  },
+  "popup_site": {
+    "message": "Site: $1"
+  },
+  "popup_armed": {
+    "message": "● ARMED on this tab"
+  },
+  "popup_idle": {
+    "message": "○ Idle"
+  },
+  "popup_loading": {
+    "message": "Panel is still loading, refresh the page if it does not appear."
+  },
+  "popup_toggle": {
+    "message": "Show / hide panel"
+  },
+  "popup_denied": {
+    "message": "Permission was not granted."
+  },
+  "safety_heading": {
+    "message": "safety"
+  },
+  "never_click_label": {
+    "message": "Never click buttons whose text matches"
+  },
+  "alert_text_label": {
+    "message": "Alert while armed when this text appears"
+  },
+  "safety_hint": {
+    "message": "Plain text or /regex/. The never-click rule applies to every click, including a picked selector. The alert text is meant for session-expired messages."
+  },
+  "language_label": {
+    "message": "Language"
+  },
+  "language_hr": {
+    "message": "Hrvatski"
+  },
+  "language_en": {
+    "message": "English"
+  },
+  "warn_already_present": {
+    "message": "Step $1: „$2\" is already on the page, not using it as confirmation"
+  },
+  "fail_manual_no_check": {
+    "message": "Nothing left to confirm the click: the expected text, success text and next button are already on the page"
+  }
+}

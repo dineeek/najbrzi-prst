@@ -1,0 +1,395 @@
+{
+  "ext_name": {
+    "message": "Najbrži prst"
+  },
+  "ext_description": {
+    "message": "Klik na odabrani gumb u točnoj sekundi poslužitelja. Sinkronizacija sata, odabir gumba, odbrojavanje."
+  },
+  "panel_title": {
+    "message": "⚡ Najbrži prst"
+  },
+  "badge_idle": {
+    "message": "NEAKTIVNO"
+  },
+  "badge_done": {
+    "message": "GOTOVO"
+  },
+  "badge_live": {
+    "message": "UŽIVO"
+  },
+  "badge_manual": {
+    "message": "RUČNO"
+  },
+  "badge_dry": {
+    "message": "PROBA"
+  },
+  "mode_live": {
+    "message": "UŽIVO"
+  },
+  "mode_manual": {
+    "message": "RUČNO"
+  },
+  "mode_dry": {
+    "message": "PROBA"
+  },
+  "collapse_title": {
+    "message": "Prikaži / sakrij"
+  },
+  "sync_none": {
+    "message": "Sat nije sinkroniziran s poslužiteljem"
+  },
+  "sync_button": {
+    "message": "Sinkroniziraj"
+  },
+  "sync_busy": {
+    "message": "Sinkroniziram…"
+  },
+  "sync_status": {
+    "message": "Tvoj sat je $1 od poslužitelja (±$2 s, RTT $3 ms)"
+  },
+  "clock_meta": {
+    "message": "$1 · vrijeme poslužitelja $2"
+  },
+  "countdown_unset": {
+    "message": "Postavi vrijeme otvaranja"
+  },
+  "timing_heading": {
+    "message": "Otvaranje ($1)"
+  },
+  "timing_offset": {
+    "message": "pomak"
+  },
+  "ms": {
+    "message": "ms"
+  },
+  "reload_label": {
+    "message": "Osvježi stranicu ako je gumb 1 i dalje onemogućen nakon"
+  },
+  "reload_then": {
+    "message": "ms, zatim svakih"
+  },
+  "reload_max": {
+    "message": "ms, najviše"
+  },
+  "reload_times": {
+    "message": "puta"
+  },
+  "timing_hint": {
+    "message": "Pomak: negativan okida ranije, pozitivan kasnije od točnog vremena poslužitelja. Osvježavanje vrijedi za uživo i ručno."
+  },
+  "steps_heading": {
+    "message": "Koraci (klikovi redom)"
+  },
+  "add_step": {
+    "message": "+ Dodaj korak"
+  },
+  "success_text_label": {
+    "message": "Tekst uspjeha"
+  },
+  "steps_hint": {
+    "message": "Kad se tekst uspjeha pojavi na stranici, sve je gotovo, koliko god koraka ostalo. Tekst gumba može biti i regex, npr. /^da\\b/ hvata „Da\" i „Da, podnesi prijavu\". Nakon klika korak je uspio ako se pojavi očekivani tekst, tekst uspjeha ili sljedeći gumb."
+  },
+  "arm_dry": {
+    "message": "Aktiviraj PROBU u zadano vrijeme"
+  },
+  "arm_live": {
+    "message": "Aktiviraj UŽIVO u zadano vrijeme"
+  },
+  "arm_manual": {
+    "message": "Aktiviraj RUČNO: odbrojavanje + fokus, ti klikćeš"
+  },
+  "now_dry": {
+    "message": "Proba odmah"
+  },
+  "now_live": {
+    "message": "UŽIVO odmah"
+  },
+  "stop": {
+    "message": "■ ZAUSTAVI (Esc)"
+  },
+  "actions_hint": {
+    "message": "Ručno: u točnoj sekundi ploča zabljesne, zapišti i fokusira gumb, a ti pritisneš Enter ili klikneš. Proba samo označava gumbe. Uživo klikće samo. Neke stranice zabranjuju automatizirano podnošenje, prvo pročitaj njihove uvjete (eFZOEU: čl. 10. st. 7.). Ostavi karticu vidljivom i u fokusu."
+  },
+  "pick_button": {
+    "message": "Odaberi gumb"
+  },
+  "show_button": {
+    "message": "Pokaži"
+  },
+  "remove_step_title": {
+    "message": "Ukloni korak"
+  },
+  "button_text_label": {
+    "message": "Tekst gumba"
+  },
+  "advanced": {
+    "message": "napredno"
+  },
+  "expect_label": {
+    "message": "Nakon klika očekuj tekst"
+  },
+  "max_clicks": {
+    "message": "najviše klikova"
+  },
+  "retry_gap": {
+    "message": "razmak"
+  },
+  "wait_text": {
+    "message": "čekaj tekst"
+  },
+  "wait_button": {
+    "message": "čekaj gumb"
+  },
+  "advanced_hint": {
+    "message": "Ako se očekivani tekst ne pojavi, klik se ponavlja do zadanog broja. Zadnji korak uvijek klikće samo jednom."
+  },
+  "no_button_picked": {
+    "message": "Nije odabran gumb"
+  },
+  "by_text": {
+    "message": "traži po tekstu"
+  },
+  "target_prefix": {
+    "message": "Cilj: "
+  },
+  "state_missing_first": {
+    "message": "● Gumb trenutno nije na stranici"
+  },
+  "state_missing_later": {
+    "message": "○ Gumb još nije na stranici (pojavljuje se kasnije)"
+  },
+  "via_selector": {
+    "message": "selektor"
+  },
+  "via_text": {
+    "message": "tekst"
+  },
+  "state_ready": {
+    "message": "● Pronađen, omogućen ($1)"
+  },
+  "state_disabled": {
+    "message": "● Pronađen, onemogućen ($1)"
+  },
+  "state_hidden": {
+    "message": "○ Pronađen, ali skriven ($1)"
+  },
+  "test_not_found": {
+    "message": "Korak $1: gumb nije pronađen na stranici"
+  },
+  "test_found": {
+    "message": "Korak $1: pronađen $2 „$3\" ($4), $5"
+  },
+  "enabled": {
+    "message": "omogućen"
+  },
+  "disabled": {
+    "message": "onemogućen"
+  },
+  "step_default_label": {
+    "message": "Korak $1"
+  },
+  "keep_one_step": {
+    "message": "Mora ostati barem jedan korak"
+  },
+  "confirm_live_now": {
+    "message": "Klikni ponovno za UŽIVO odmah"
+  },
+  "confirm_live": {
+    "message": "Klikni ponovno za potvrdu UŽIVO"
+  },
+  "log_synced": {
+    "message": "Sat sinkroniziran: pomak $1 s, ±$2 s"
+  },
+  "log_sync_failed": {
+    "message": "Sinkronizacija nije uspjela: $1"
+  },
+  "log_sync_old": {
+    "message": "Koristim sinkronizaciju staru $1 min, nova nije uspjela"
+  },
+  "log_sync_coarse": {
+    "message": "Sinkronizacija je gruba (±$1 s), klik može promašiti za toliko"
+  },
+  "log_pick_cancelled": {
+    "message": "Odabir otkazan"
+  },
+  "log_picked": {
+    "message": "Korak $1: odabran $2 „$3\""
+  },
+  "log_armed": {
+    "message": "$1 aktivirano, okidanje u $2"
+  },
+  "log_step_waiting": {
+    "message": "Korak $1: čekam gumb…"
+  },
+  "log_click": {
+    "message": "Korak $1: klik $2 u $3"
+  },
+  "how_success": {
+    "message": "tekst uspjeha"
+  },
+  "how_next": {
+    "message": "pojavio se sljedeći gumb"
+  },
+  "how_expect": {
+    "message": "očekivani tekst"
+  },
+  "how_none": {
+    "message": "bez provjere"
+  },
+  "how_skipped": {
+    "message": "preskočen, pojavljuje se tek nakon pravog klika"
+  },
+  "done_live": {
+    "message": "kliknut"
+  },
+  "done_manual": {
+    "message": "predan tebi"
+  },
+  "done_dry": {
+    "message": "označen"
+  },
+  "log_step_done": {
+    "message": "Korak $1: $2 u $3 (pokušaj $4, $5, $6)"
+  },
+  "log_reloading": {
+    "message": "Gumb 1 onemogućen, osvježavam stranicu ($1.)"
+  },
+  "log_finished": {
+    "message": "GOTOVO: svi koraci odrađeni ($1)"
+  },
+  "notify_finished": {
+    "message": "Svi koraci su odrađeni."
+  },
+  "log_failed": {
+    "message": "NEUSPJEH, korak $1: $2"
+  },
+  "notify_failed": {
+    "message": "Korak $1 nije uspio. Nastavi ručno."
+  },
+  "log_stopped": {
+    "message": "Zaustavljeno"
+  },
+  "wake_lock_on": {
+    "message": "Zaslon neće zaspati dok je aktivno"
+  },
+  "wake_lock_off": {
+    "message": "Zaključavanje zaslona nije dostupno, ne dopusti da računalo zaspi"
+  },
+  "session_lost_log": {
+    "message": "Sesija je istekla! Prijavi se ponovno i aktiviraj opet."
+  },
+  "session_lost_notify": {
+    "message": "Sesija je istekla. Prijavi se ponovno."
+  },
+  "hand_over": {
+    "message": "SAD! Pritisni Enter ili klikni fokusirani gumb"
+  },
+  "set_opening_time": {
+    "message": "Postavi datum i vrijeme otvaranja"
+  },
+  "pick_at_least_one": {
+    "message": "Odaberi barem jedan gumb"
+  },
+  "opening_passed": {
+    "message": "Vrijeme otvaranja je prošlo. Koristi „UŽIVO odmah\" ili postavi novo vrijeme."
+  },
+  "no_sync_refuse": {
+    "message": "Sat nije sinkroniziran s poslužiteljem, ne aktiviram $1. Pritisni Sinkroniziraj i pokušaj opet."
+  },
+  "stale_past": {
+    "message": "Staro aktivno stanje odbačeno: vrijeme otvaranja je prošlo"
+  },
+  "stale_discarded": {
+    "message": "Staro aktivno stanje odbačeno"
+  },
+  "resuming": {
+    "message": "Nastavljam nakon osvježavanja (korak $1, osvježeno $2×)"
+  },
+  "tab_hidden": {
+    "message": "Kartica nije vidljiva! Chrome usporava sat u pozadini, vrati se na ovu karticu."
+  },
+  "fail_not_found": {
+    "message": "Gumb „$1\" nije pronađen ili nije omogućen unutar $2 ms"
+  },
+  "fail_no_confirmation": {
+    "message": "Nakon $1 klikova nema potvrde (ni očekivani tekst, ni tekst uspjeha, ni sljedeći gumb)"
+  },
+  "fail_button_gone": {
+    "message": "Gumb „$1\" je nestao nakon klika i nije stigla potvrda"
+  },
+  "fail_manual_timeout": {
+    "message": "Nakon 90 s nema potvrde da je gumb pritisnut"
+  },
+  "err_no_date_header": {
+    "message": "Nema Date zaglavlja s $1"
+  },
+  "err_bad_date_header": {
+    "message": "Neispravno Date zaglavlje: $1"
+  },
+  "err_sync_unreachable": {
+    "message": "Nijedna probna adresa na $1 nije vratila Date zaglavlje"
+  },
+  "pick_banner": {
+    "message": "Klikni na gumb koji treba pritisnuti · Esc za odustajanje"
+  },
+  "popup_not_a_site": {
+    "message": "Otvori karticu s web stranicom da bi koristio Najbrži prst."
+  },
+  "popup_not_enabled": {
+    "message": "Nije uključeno na $1. Uključi i ploča se prikazuje na stranici."
+  },
+  "popup_enable_here": {
+    "message": "Uključi na $1"
+  },
+  "popup_remove_here": {
+    "message": "Ukloni $1"
+  },
+  "popup_enabled_sites": {
+    "message": "Uključene stranice"
+  },
+  "popup_site": {
+    "message": "Stranica: $1"
+  },
+  "popup_armed": {
+    "message": "● AKTIVNO na ovoj kartici"
+  },
+  "popup_idle": {
+    "message": "○ Neaktivno"
+  },
+  "popup_loading": {
+    "message": "Ploča se još učitava, osvježi stranicu ako se ne pojavi."
+  },
+  "popup_toggle": {
+    "message": "Prikaži / sakrij ploču"
+  },
+  "popup_denied": {
+    "message": "Dozvola nije odobrena."
+  },
+  "safety_heading": {
+    "message": "sigurnost"
+  },
+  "never_click_label": {
+    "message": "Nikad ne klikći gumbe čiji tekst odgovara"
+  },
+  "alert_text_label": {
+    "message": "Upozori dok je aktivno kad se pojavi tekst"
+  },
+  "safety_hint": {
+    "message": "Običan tekst ili /regex/. Pravilo za neklikanje vrijedi za svaki klik, i za odabrani selektor. Tekst upozorenja je zamišljen za poruku o isteku sesije."
+  },
+  "language_label": {
+    "message": "Jezik"
+  },
+  "language_hr": {
+    "message": "Hrvatski"
+  },
+  "language_en": {
+    "message": "English"
+  },
+  "warn_already_present": {
+    "message": "Korak $1: „$2\" je već na stranici, ne koristim ga kao potvrdu"
+  },
+  "fail_manual_no_check": {
+    "message": "Nema čime potvrditi klik: očekivani tekst, tekst uspjeha i sljedeći gumb već su na stranici"
+  }
+}
