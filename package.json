@@ -1,6 +1,6 @@
 {
   "name": "najbrzi-prst",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "private": true,
   "description": "Chrome extension that clicks a chosen button at an exact server-synced second: clock sync, element picker, countdown, dry run and manual mode",
   "type": "module",
