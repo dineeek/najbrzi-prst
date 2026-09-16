@@ -141,6 +141,12 @@ describe('resolveTarget', () => {
     ).toBeNull();
   });
 
+  it('finds icon-only buttons through their title', () => {
+    document.body.innerHTML =
+      '<a title="Više informacija o pozivu"><svg></svg></a>';
+    expect(findByText('više informacija o pozivu')).toHaveLength(1);
+  });
+
   it('matches input buttons by value', () => {
     document.body.innerHTML = '<input type="submit" value="Pošalji" />';
     expect(findByText('pošalji')).toHaveLength(1);

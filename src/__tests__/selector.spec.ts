@@ -53,6 +53,22 @@ describe('buildSelector', () => {
     );
   });
 
+  it('uses aria-label or title as the text of an icon-only button', () => {
+    document.body.innerHTML = `
+      <a id="info" title="Više informacija o pozivu"><svg></svg></a>
+      <button id="close" aria-label="Zatvori"><svg></svg></button>
+      <button id="pic"><img alt="Pošalji" /></button>`;
+    expect(describeTarget(document.getElementById('info')!).text).toBe(
+      'Više informacija o pozivu'
+    );
+    expect(describeTarget(document.getElementById('close')!).text).toBe(
+      'Zatvori'
+    );
+    expect(describeTarget(document.getElementById('pic')!).text).toBe(
+      'Pošalji'
+    );
+  });
+
   it('skips auto-generated ids', () => {
     document.body.innerHTML =
       '<div><button id=":r3:">Go</button><button>Other</button></div>';

@@ -93,7 +93,15 @@ function buildLocalSelector(el: Element, root: Document | ShadowRoot): string {
 
 export function visibleText(el: Element): string {
   if (el instanceof HTMLInputElement) return el.value;
-  return el.textContent ?? '';
+  const text = (el.textContent ?? '').trim();
+  if (text) return text;
+  return (
+    el.getAttribute('aria-label') ||
+    el.getAttribute('title') ||
+    el.querySelector('img[alt], svg[aria-label]')?.getAttribute('alt') ||
+    el.querySelector('svg[aria-label]')?.getAttribute('aria-label') ||
+    ''
+  );
 }
 
 export function describeTarget(el: Element): Target {
