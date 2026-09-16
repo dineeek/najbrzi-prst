@@ -391,5 +391,8 @@
   },
   "fail_manual_no_check": {
     "message": "Nothing left to confirm the click: the expected text, success text and next button are already on the page"
+  },
+  "popup_reload_page": {
+    "message": "Reload the page"
   }
 }

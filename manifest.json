@@ -7,7 +7,7 @@
   "permissions": ["storage", "notifications", "scripting", "offscreen", "activeTab"],
   "optional_host_permissions": ["http://*/*", "https://*/*"],
   "background": {
-    "service_worker": "src/background/index.ts",
+    "service_worker": "src/background/service-worker.ts",
     "type": "module"
   },
   "action": {

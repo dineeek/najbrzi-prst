@@ -391,5 +391,8 @@
   },
   "fail_manual_no_check": {
     "message": "Nema čime potvrditi klik: očekivani tekst, tekst uspjeha i sljedeći gumb već su na stranici"
+  },
+  "popup_reload_page": {
+    "message": "Osvježi stranicu"
   }
 }

@@ -55,6 +55,15 @@ async function askPanel(
   }
 }
 
+async function waitForPanel(tabId: number): Promise<PanelStateReply | null> {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const reply = await askPanel(tabId, { type: 'panel-state' });
+    if (reply) return reply;
+    await new Promise(resolve => setTimeout(resolve, 250));
+  }
+  return null;
+}
+
 async function removeSite(pattern: string): Promise<void> {
   const tabs = await chrome.tabs.query({ url: pattern });
   for (const tab of tabs)
@@ -145,7 +154,8 @@ async function render(): Promise<void> {
           status.textContent = t('popup_denied');
           return;
         }
-        await new Promise(resolve => setTimeout(resolve, 600));
+        status.textContent = t('popup_loading');
+        await waitForPanel(tabId);
         await render();
       }),
       status,
@@ -157,10 +167,18 @@ async function render(): Promise<void> {
   }
 
   const status = el('p', '', 'status');
-  paintStatus(status, await askPanel(tabId, { type: 'panel-state' }));
+  const state = await askPanel(tabId, { type: 'panel-state' });
+  paintStatus(status, state);
+  main.append(el('p', t('popup_site', host)), status);
+  if (!state)
+    main.append(
+      button(t('popup_reload_page'), async () => {
+        await chrome.tabs.reload(tabId);
+        await waitForPanel(tabId);
+        await render();
+      })
+    );
   main.append(
-    el('p', t('popup_site', host)),
-    status,
     button(t('popup_toggle'), async () => {
       paintStatus(status, await askPanel(tabId, { type: 'toggle-panel' }));
     }),

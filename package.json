@@ -1,6 +1,6 @@
 {
   "name": "najbrzi-prst",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Chrome extension that clicks a chosen button at an exact server-synced second: clock sync, element picker, countdown, dry run and manual mode",
   "type": "module",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/check-dist.mjs",
     "clean": "rm -rf dist",
     "zip": "npm run build && rm -f najbrzi-prst.zip && cd dist && zip -qr ../najbrzi-prst.zip . -x '.DS_Store'",
     "style": "prettier --write \"src/**/*.ts\" \"*.html\" \"test/**/*.html\" \"public/_locales/**/*.json\"",
