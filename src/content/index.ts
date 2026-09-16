@@ -180,9 +180,13 @@ async function main(): Promise<void> {
       return;
     }
     const step = task.steps[index];
+    const previousText = step.target.text;
     step.target = describeTarget(el);
-    if (!step.label.trim() || isDefaultStepLabel(step.label, index))
-      step.label = step.target.text || step.label;
+    const isDerivedLabel =
+      !step.label.trim() ||
+      isDefaultStepLabel(step.label, index) ||
+      step.label === previousText;
+    if (isDerivedLabel) step.label = step.target.text || step.label;
     await saveTask(origin, task);
     overlay.setTask(task);
     overlay.flash(el);
