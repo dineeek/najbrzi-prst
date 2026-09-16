@@ -191,12 +191,6 @@
   "keep_one_step": {
     "message": "At least one step must remain"
   },
-  "confirm_live_now": {
-    "message": "Click again for LIVE now"
-  },
-  "confirm_live": {
-    "message": "Click again to confirm LIVE"
-  },
   "log_synced": {
     "message": "Clock synced: offset $1 s, ±$2 s"
   },

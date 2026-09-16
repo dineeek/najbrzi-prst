@@ -191,12 +191,6 @@
   "keep_one_step": {
     "message": "Mora ostati barem jedan korak"
   },
-  "confirm_live_now": {
-    "message": "Klikni ponovno za UŽIVO odmah"
-  },
-  "confirm_live": {
-    "message": "Klikni ponovno za potvrdu UŽIVO"
-  },
   "log_synced": {
     "message": "Sat sinkroniziran: pomak $1 s, ±$2 s"
   },

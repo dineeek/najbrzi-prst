@@ -75,18 +75,11 @@ describe('Overlay', () => {
     overlay.destroy();
   });
 
-  it('asks for a second press on the live button and says so', () => {
+  it('arms live on a single press', () => {
     const cb = callbacks();
     const overlay = new Overlay(defaultTask(), cb);
     overlay.mount();
-    const live = overlay.root.querySelector<HTMLButtonElement>('.btn.danger')!;
-    live.click();
-    expect(cb.onArm).not.toHaveBeenCalled();
-    expect(live.textContent).toBe('Klikni ponovno za potvrdu UŽIVO');
-    expect(overlay.root.querySelector('.notice')!.textContent).toBe(
-      'Klikni ponovno za potvrdu UŽIVO'
-    );
-    live.click();
+    overlay.root.querySelector<HTMLButtonElement>('.btn.danger')!.click();
     expect(cb.onArm).toHaveBeenCalledWith('live', false);
     overlay.destroy();
   });
@@ -96,7 +89,6 @@ describe('Overlay', () => {
     const overlay = new Overlay(defaultTask(), cb);
     overlay.mount();
     const nowLive = overlay.root.querySelector<HTMLButtonElement>('.btn.warn')!;
-    nowLive.click();
     nowLive.click();
     expect(cb.onArm).toHaveBeenCalledTimes(1);
     expect(nowLive.disabled).toBe(true);

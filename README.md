@@ -77,9 +77,8 @@ right of that site from then on. Remove a site from the same popup.
    dialog and never clicks anything that reads like cancel.
 5. Press "Proba odmah" / "Dry run now" to rehearse: every button is flashed,
    nothing is clicked.
-6. Ten minutes before opening arm the mode you want. Live mode asks for a second
-   click to confirm. Keep the tab visible and the window focused. The panel
-   holds a screen wake lock while armed.
+6. Ten minutes before opening arm the mode you want. Keep the tab visible and
+   the window focused. The panel holds a screen wake lock while armed.
 7. While armed every setting is locked, only STOP, Sync and the language switch
    stay active. "ZAUSTAVI" / "STOP" or `Esc` disarms at any time and unlocks
    them.

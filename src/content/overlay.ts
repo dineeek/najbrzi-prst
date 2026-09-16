@@ -47,7 +47,6 @@ function h<K extends keyof HTMLElementTagNameMap>(
 
 export const HOST_ID = 'najbrzi-prst';
 const LOG_KEY = 'najbrzi-prst:log';
-const LIVE_CONFIRM_MS = 6000;
 const NOTICE_MS = 8000;
 const LOG_LINES = 40;
 
@@ -79,7 +78,6 @@ export class Overlay {
   private noticeTimer = 0;
   private isLocked = false;
   private fireAtMs = NaN;
-  private liveConfirmTimer = 0;
   private stateTimer = 0;
   private lines: string[] = [];
   private lastSync: ClockSync | null = null;
@@ -203,7 +201,6 @@ export class Overlay {
     }
     this.lockSettings(isArmed);
     this.stopBtn.disabled = !isArmed;
-    this.resetLiveConfirm();
   }
 
   setBusy(isBusy: boolean): void {
@@ -420,7 +417,7 @@ export class Overlay {
     );
     this.liveBtn = h(
       'button',
-      { class: 'btn danger', onClick: () => this.confirmLive(false) },
+      { class: 'btn danger', onClick: () => this.requestArm('live', false) },
       [t('arm_live')]
     );
     this.manualBtn = h(
@@ -438,7 +435,7 @@ export class Overlay {
     );
     this.nowLiveBtn = h(
       'button',
-      { class: 'btn warn', onClick: () => this.confirmLive(true) },
+      { class: 'btn warn', onClick: () => this.requestArm('live', true) },
       [t('now_live')]
     );
     this.stopBtn = h(
@@ -693,31 +690,6 @@ export class Overlay {
   private requestArm(mode: RunMode, isNow: boolean): void {
     this.setBusy(true);
     this.callbacks.onArm(mode, isNow);
-  }
-
-  private confirmLive(isNow: boolean): void {
-    const btn = isNow ? this.nowLiveBtn : this.liveBtn;
-    if (btn.dataset.confirm === '1') {
-      this.resetLiveConfirm();
-      this.requestArm('live', isNow);
-      return;
-    }
-    this.resetLiveConfirm();
-    btn.dataset.confirm = '1';
-    btn.textContent = t(isNow ? 'confirm_live_now' : 'confirm_live');
-    this.showNotice(t(isNow ? 'confirm_live_now' : 'confirm_live'), 'warn');
-    this.liveConfirmTimer = window.setTimeout(
-      () => this.resetLiveConfirm(),
-      LIVE_CONFIRM_MS
-    );
-  }
-
-  private resetLiveConfirm(): void {
-    clearTimeout(this.liveConfirmTimer);
-    delete this.liveBtn.dataset.confirm;
-    delete this.nowLiveBtn.dataset.confirm;
-    this.liveBtn.textContent = t('arm_live');
-    this.nowLiveBtn.textContent = t('now_live');
   }
 
   private updateFireAt(): void {
