@@ -14,7 +14,6 @@ export interface Step {
   maxAttempts: number;
   retryIntervalMs: number;
   settleMs: number;
-  expectText: string;
 }
 
 export interface ReloadPolicy {
@@ -45,8 +44,7 @@ export interface StepResult {
   attempts: number;
   via: 'selector' | 'text';
   isFinal: boolean;
-  satisfiedBy:
-    'expect' | 'success' | 'next' | 'none' | 'skipped' | 'unconfirmed';
+  satisfiedBy: 'success' | 'next' | 'none' | 'skipped' | 'unconfirmed';
 }
 
 export interface ArmedState {
@@ -104,8 +102,7 @@ export function newStep(label: string, text: string): Step {
     timeoutMs: 15000,
     maxAttempts: 30,
     retryIntervalMs: 400,
-    settleMs: 700,
-    expectText: ''
+    settleMs: 700
   };
 }
 
@@ -129,13 +126,11 @@ function baseTask(
 
 function efzoeuTask(): Task {
   const submit = newStep('Podnesi prijavu', 'Podnesi prijavu');
-  submit.expectText = 'Jeste li sigurni';
   const confirm = newStep('Da, podnesi prijavu', '/^da\\b/');
   confirm.maxAttempts = 1;
   confirm.retryIntervalMs = 0;
   confirm.settleMs = 12000;
   confirm.timeoutMs = 8000;
-  confirm.expectText = 'Prijava uspješno podnesena';
   return baseTask(
     [submit, confirm],
     'Prijava uspješno podnesena',

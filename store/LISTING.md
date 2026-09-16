@@ -19,8 +19,10 @@ others see "Fastest Finger". Default locale is Croatian.
 
 **Summary (max 132 characters)**
 
-- HR: `Klik na odabrani gumb u točnoj sekundi poslužitelja: sinkronizacija sata, odabir gumba, odbrojavanje, proba i ručni način.`
-- EN: `Clicks a chosen button at an exact server-synced second: clock sync, element picker, countdown, dry run and manual mode.`
+- HR:
+  `Klik na odabrani gumb u točnoj sekundi poslužitelja: sinkronizacija sata, odabir gumba, odbrojavanje, proba i ručni način.`
+- EN:
+  `Clicks a chosen button at an exact server-synced second: clock sync, element picker, countdown, dry run and manual mode.`
 
 **Description, Croatian**
 
@@ -91,14 +93,14 @@ the popup. It collects no data.
 **Graphics**
 
 - Icon 128×128: `public/icons/icon128.png` (already in the zip).
-- Screenshots 1280×800: `store/screenshots/1-panel-hr.png`,
-  `2-panel-en.png`, `3-run-done.png`.
+- Screenshots 1280×800: `store/screenshots/1-panel-hr.png`, `2-panel-en.png`,
+  `3-run-done.png`.
 - Small promo tile 440×280 and marquee 1400×560: optional, not provided.
 
 ## Privacy practices
 
-**Single purpose:** Fire a click on a button the user picked, at a time the
-user set, synced to the site's server clock.
+**Single purpose:** Fire a click on a button the user picked, at a time the user
+set, synced to the site's server clock.
 
 **Permission justifications**
 
@@ -106,16 +108,16 @@ user set, synced to the site's server clock.
   language) locally.
 - `notifications`: desktop notification when a run finishes, fails or the
   session expires, so the user does not have to watch the tab.
-- `scripting`: injects the panel into the sites the user enabled, and
-  registers it for future visits to those sites.
-- `offscreen`: plays the alert beep from an offscreen document, which works
-  even when the page itself has no user gesture after a reload.
-- `activeTab`: reads the current tab's URL in the popup to offer "Enable on
-  this site".
+- `scripting`: injects the panel into the sites the user enabled, and registers
+  it for future visits to those sites.
+- `offscreen`: plays the alert beep from an offscreen document, which works even
+  when the page itself has no user gesture after a reload.
+- `activeTab`: reads the current tab's URL in the popup to offer "Enable on this
+  site".
 - Host permissions (`http://*/*`, `https://*/*`, all optional): the extension
-  runs only on origins the user enables one by one from the popup. It needs
-  the origin to inject the panel and to send HEAD requests to that same origin
-  for clock sync. Nothing is requested at install time.
+  runs only on origins the user enables one by one from the popup. It needs the
+  origin to inject the panel and to send HEAD requests to that same origin for
+  clock sync. Nothing is requested at install time.
 
 **Remote code:** No, all code is in the package.
 
@@ -123,7 +125,8 @@ user set, synced to the site's server clock.
 data categories. Certify: not sold to third parties, not used for purposes
 unrelated to the single purpose, not used for creditworthiness or lending.
 
-**Privacy policy URL:** `https://github.com/dineeek/najbrzi-prst/blob/main/PRIVACY.md`
+**Privacy policy URL:**
+`https://github.com/dineeek/najbrzi-prst/blob/main/PRIVACY.md`
 
 ## Distribution
 
@@ -143,7 +146,7 @@ granted per site by the user; no site is accessed before that.
 
 ## Before every submission
 
-1. Bump `version` in `package.json`, commit, tag `vX.Y.Z` (the release
-   workflow builds the same zip and attaches it to a GitHub release).
+1. Bump `version` in `package.json`, commit, tag `vX.Y.Z` (the release workflow
+   builds the same zip and attaches it to a GitHub release).
 2. `npm run zip`, upload `najbrzi-prst.zip`.
 3. Re-check the permission justifications above if the manifest changed.

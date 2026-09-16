@@ -52,8 +52,7 @@ function mergeStep(
     timeoutMs: num(stored?.timeoutMs, base.timeoutMs, 100),
     maxAttempts: num(stored?.maxAttempts, base.maxAttempts, 1),
     retryIntervalMs: num(stored?.retryIntervalMs, base.retryIntervalMs, 0),
-    settleMs: num(stored?.settleMs, base.settleMs, 100),
-    expectText: str(stored?.expectText)
+    settleMs: num(stored?.settleMs, base.settleMs, 100)
   };
 }
 
