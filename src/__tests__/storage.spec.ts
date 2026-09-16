@@ -21,7 +21,6 @@ describe('mergeTask', () => {
       text: 'Go',
       tag: 'button'
     });
-    expect(task.steps[0].expectText).toBe('');
     expect(task.steps[0].settleMs).toBe(700);
     expect(task.steps[0].maxAttempts).toBe(30);
   });

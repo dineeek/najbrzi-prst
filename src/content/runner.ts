@@ -30,10 +30,9 @@ export interface RunnerDeps {
 const DRY_TIMEOUT_MS = 1500;
 const MANUAL_WAIT_MS = 90_000;
 
-type Satisfied = 'expect' | 'success' | 'next';
+type Satisfied = 'success' | 'next';
 
 interface Checks {
-  expectText: string;
   successText: string;
   next: Step | null;
 }
@@ -162,11 +161,9 @@ export class Runner {
   }
 
   private checksFor(index: number): Checks {
-    const step = this.task.steps[index];
     const next = this.task.steps[index + 1] ?? null;
     const successText = this.task.successText.trim();
-    const expectText = step.expectText.trim();
-    const checks: Checks = { expectText, successText, next };
+    const checks: Checks = { successText, next };
     const ignore = (what: string) =>
       this.deps.emit({
         type: 'warning',
@@ -177,10 +174,6 @@ export class Runner {
       checks.successText = '';
       ignore(successText);
     }
-    if (expectText && matchAnyText([expectText]) !== null) {
-      checks.expectText = '';
-      ignore(expectText);
-    }
     if (next && readyTarget(next.target, true, this.task.neverClickText)) {
       checks.next = null;
       ignore(next.label || next.target.text);
@@ -189,14 +182,8 @@ export class Runner {
   }
 
   private satisfied(checks: Checks): Satisfied | null {
-    const matched = matchAnyText([checks.successText, checks.expectText]);
-    if (
-      matched !== null &&
-      checks.successText &&
-      matched === checks.successText
-    )
+    if (checks.successText && matchAnyText([checks.successText]) !== null)
       return 'success';
-    if (matched !== null) return 'expect';
     if (
       checks.next &&
       readyTarget(checks.next.target, true, this.task.neverClickText)
@@ -206,7 +193,7 @@ export class Runner {
   }
 
   private hasCheck(checks: Checks): boolean {
-    return !!(checks.expectText || checks.successText || checks.next);
+    return !!(checks.successText || checks.next);
   }
 
   private done(

@@ -91,7 +91,7 @@ describe('Runner', () => {
     expect(d.persist).toHaveBeenLastCalledWith(null);
   });
 
-  it('retries the first click until the expected text appears', async () => {
+  it('retries the first click until the next button appears', async () => {
     const { deps: d, events } = deps();
     const submit = document.getElementById('submit')!;
     submit.removeAttribute('disabled');
@@ -110,7 +110,7 @@ describe('Runner', () => {
     expect(events.at(-1)?.type).toBe('finished');
   });
 
-  it('fails after maxAttempts without the expected text', async () => {
+  it('fails after maxAttempts when nothing confirms the click', async () => {
     const { deps: d, events } = deps();
     const submit = document.getElementById('submit')!;
     submit.removeAttribute('disabled');
@@ -342,12 +342,10 @@ describe('Runner', () => {
     ).toBe('success');
   });
 
-  it('treats the next button appearing as confirmation even when the expected text differs', async () => {
+  it('treats the next button appearing as confirmation of the first click', async () => {
     const { deps: d, events } = deps();
-    const task = fastTask();
-    task.steps[0].expectText = 'Neki drugi tekst';
     document.getElementById('submit')!.removeAttribute('disabled');
-    const runner = new Runner(task, Date.now(), d);
+    const runner = new Runner(fastTask(), Date.now(), d);
     await runner.arm('live');
     await finished(events);
     expect(events.at(-1)?.type).toBe('finished');
@@ -390,7 +388,7 @@ describe('Runner', () => {
     await runner.arm('live');
     await finished(events);
     const warnings = events.filter(e => e.type === 'warning');
-    expect(warnings).toHaveLength(2);
+    expect(warnings).toHaveLength(1);
     const failed = events.find(e => e.type === 'failed');
     expect(failed && failed.type === 'failed' && failed.stepIndex).toBe(0);
   });
@@ -399,7 +397,6 @@ describe('Runner', () => {
     const { deps: d, events } = deps();
     const task = fastTask();
     task.steps = [task.steps[0]];
-    task.steps[0].expectText = '';
     task.successText = '';
     document.getElementById('submit')!.removeAttribute('disabled');
     const runner = new Runner(task, Date.now(), d);

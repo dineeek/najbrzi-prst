@@ -541,10 +541,6 @@ export class Overlay {
     const state = h('div', { class: 'state' });
     target.dataset.stepIndex = String(index);
     state.dataset.stepIndex = String(index);
-    const expect = this.textInput(
-      step.expectText,
-      value => (step.expectText = value)
-    );
     const attempts = this.numberInput(
       step.maxAttempts,
       value => (step.maxAttempts = Math.max(1, value))
@@ -563,7 +559,6 @@ export class Overlay {
     );
     const advanced = h('details', {}, [
       h('summary', {}, [t('advanced')]),
-      h('div', { class: 'row' }, [h('label', {}, [t('expect_label')]), expect]),
       h('div', { class: 'row' }, [
         h('label', {}, [t('max_clicks')]),
         attempts,

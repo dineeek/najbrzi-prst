@@ -87,7 +87,7 @@
     "message": "Success text"
   },
   "steps_hint": {
-    "message": "When the success text appears on the page the run is over, however many steps remain. Button text can be a regex, e.g. /^yes\\b/ matches „Yes\" and „Yes, submit\". After a click a step counts as done when the expected text, the success text or the next button shows up."
+    "message": "When the success text appears on the page the run is over, however many steps remain. Button text can be a regex, e.g. /^yes\\b/ matches „Yes\" and „Yes, submit\". After a click a step counts as done when the success text or the next step's button shows up."
   },
   "arm_dry": {
     "message": "Arm DRY RUN at the set time"
@@ -125,9 +125,6 @@
   "advanced": {
     "message": "advanced"
   },
-  "expect_label": {
-    "message": "After the click expect text"
-  },
   "max_clicks": {
     "message": "max clicks"
   },
@@ -141,7 +138,7 @@
     "message": "wait for button"
   },
   "advanced_hint": {
-    "message": "If the expected text does not appear the click is repeated up to the given count. The last step always clicks once."
+    "message": "If neither the success text nor the next button appears, the click is repeated up to the given count. The last step always clicks once."
   },
   "no_button_picked": {
     "message": "No button picked"
@@ -224,9 +221,6 @@
   "how_next": {
     "message": "next button appeared"
   },
-  "how_expect": {
-    "message": "expected text"
-  },
   "how_none": {
     "message": "no check"
   },
@@ -306,7 +300,7 @@
     "message": "Button „$1\" not found or not enabled within $2 ms"
   },
   "fail_no_confirmation": {
-    "message": "After $1 clicks no confirmation (no expected text, no success text, no next button)"
+    "message": "After $1 clicks no confirmation (no success text, no next button)"
   },
   "fail_button_gone": {
     "message": "Button „$1\" disappeared after the click and no confirmation followed"
@@ -384,7 +378,7 @@
     "message": "Step $1: „$2\" is already on the page, not using it as confirmation"
   },
   "fail_manual_no_check": {
-    "message": "Nothing left to confirm the click: the expected text, success text and next button are already on the page"
+    "message": "Nothing left to confirm the click: the success text and the next button are already on the page"
   },
   "popup_reload_page": {
     "message": "Reload the page"

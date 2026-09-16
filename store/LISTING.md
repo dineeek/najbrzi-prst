@@ -37,8 +37,8 @@ Kako radi
 • Križićem odabereš točan gumb. Sprema se stabilan CSS selektor i tekst gumba,
   oboje se provjerava prije klika. Može se odabrati i onemogućen gumb.
 • Izvodi koraka redom: čeka da gumb bude vidljiv i omogućen, klikne i ponavlja
-  dok se ne pojavi očekivani tekst, tekst uspjeha ili sljedeći gumb. Zadnji
-  korak klikće samo jednom.
+  dok se ne pojavi tekst uspjeha ili sljedeći gumb. Zadnji korak klikće samo
+  jednom.
 • Osvježi stranicu ako je prvi gumb i dalje onemogućen nakon otvaranja i
   nastavlja nakon osvježavanja.
 
@@ -70,8 +70,8 @@ How it works
   button text are stored and both are verified before clicking. Disabled
   buttons can be picked too.
 • Runs steps in order: waits until the button is visible and enabled, clicks,
-  and retries until the expected text, the success text or the next button
-  shows up. The last step clicks once, never twice.
+  and retries until the success text or the next button shows up. The last
+  step clicks once, never twice.
 • Reloads the page if the first button is still disabled after the opening
   second and resumes after the reload.
 

@@ -87,7 +87,7 @@
     "message": "Tekst uspjeha"
   },
   "steps_hint": {
-    "message": "Kad se tekst uspjeha pojavi na stranici, sve je gotovo, koliko god koraka ostalo. Tekst gumba može biti i regex, npr. /^da\\b/ hvata „Da\" i „Da, podnesi prijavu\". Nakon klika korak je uspio ako se pojavi očekivani tekst, tekst uspjeha ili sljedeći gumb."
+    "message": "Kad se tekst uspjeha pojavi na stranici, sve je gotovo, koliko god koraka ostalo. Tekst gumba može biti i regex, npr. /^da\\b/ hvata „Da\" i „Da, podnesi prijavu\". Nakon klika korak je uspio ako se pojavi tekst uspjeha ili sljedeći gumb."
   },
   "arm_dry": {
     "message": "Aktiviraj PROBU u zadano vrijeme"
@@ -125,9 +125,6 @@
   "advanced": {
     "message": "napredno"
   },
-  "expect_label": {
-    "message": "Nakon klika očekuj tekst"
-  },
   "max_clicks": {
     "message": "najviše klikova"
   },
@@ -141,7 +138,7 @@
     "message": "čekaj gumb"
   },
   "advanced_hint": {
-    "message": "Ako se očekivani tekst ne pojavi, klik se ponavlja do zadanog broja. Zadnji korak uvijek klikće samo jednom."
+    "message": "Ako se ne pojavi ni tekst uspjeha ni sljedeći gumb, klik se ponavlja do zadanog broja. Zadnji korak uvijek klikće samo jednom."
   },
   "no_button_picked": {
     "message": "Nije odabran gumb"
@@ -224,9 +221,6 @@
   "how_next": {
     "message": "pojavio se sljedeći gumb"
   },
-  "how_expect": {
-    "message": "očekivani tekst"
-  },
   "how_none": {
     "message": "bez provjere"
   },
@@ -306,7 +300,7 @@
     "message": "Gumb „$1\" nije pronađen ili nije omogućen unutar $2 ms"
   },
   "fail_no_confirmation": {
-    "message": "Nakon $1 klikova nema potvrde (ni očekivani tekst, ni tekst uspjeha, ni sljedeći gumb)"
+    "message": "Nakon $1 klikova nema potvrde (ni tekst uspjeha, ni sljedeći gumb)"
   },
   "fail_button_gone": {
     "message": "Gumb „$1\" je nestao nakon klika i nije stigla potvrda"
@@ -384,7 +378,7 @@
     "message": "Korak $1: „$2\" je već na stranici, ne koristim ga kao potvrdu"
   },
   "fail_manual_no_check": {
-    "message": "Nema čime potvrditi klik: očekivani tekst, tekst uspjeha i sljedeći gumb već su na stranici"
+    "message": "Nema čime potvrditi klik: tekst uspjeha i sljedeći gumb već su na stranici"
   },
   "popup_reload_page": {
     "message": "Osvježi stranicu"

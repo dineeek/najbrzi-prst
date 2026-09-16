@@ -20,8 +20,8 @@ Not affiliated with FZOEU or any portal. Read
   selector plus the button text and verifies both before clicking. Disabled
   buttons can be picked too.
 - Runs an ordered list of clicks. Each step waits until its button is visible
-  and enabled, clicks, and retries until the expected text, the success text, or
-  the next button shows up. The last step clicks once, never twice.
+  and enabled, clicks, and retries until the success text or the next button
+  shows up. The last step clicks once, never twice.
 - Reloads the page if the first button is still disabled after the opening
   second, and resumes automatically after the reload.
 - Three modes: **Manual** (countdown, flash, beep, focus, you press the button),
@@ -70,11 +70,11 @@ right of that site from then on. Remove a site from the same popup.
 3. For each step press "Odaberi gumb" / "Pick button" and click the real button
    on the page. The row shows what was captured and whether it is currently
    found, enabled or hidden. "Pokaži" / "Show" flashes it.
-4. Fill in "Nakon klika očekuj tekst" / "After the click expect text" for each
-   step and "Tekst uspjeha" / "Success text" for the whole run. Button text can
-   be a regex such as `/^da\b/` or `/^yes\b/`, which also matches „Da, podnesi
-   prijavu" and „Yes, submit". Text fallback prefers a button inside an open
-   dialog and never clicks anything that reads like cancel.
+4. Optionally fill in "Tekst uspjeha" / "Success text", the text that appears
+   when the whole run succeeded. Button text can be a regex such as `/^da\b/` or
+   `/^yes\b/`, which also matches „Da, podnesi prijavu" and „Yes, submit". Text
+   fallback prefers a button inside an open dialog and never clicks anything
+   that reads like cancel.
 5. Press "Proba odmah" / "Dry run now" to rehearse: every button is flashed,
    nothing is clicked.
 6. Ten minutes before opening arm the mode you want. Keep the tab visible and
@@ -84,8 +84,8 @@ right of that site from then on. Remove a site from the same popup.
    them.
 
 On `efzoeu.gov.hr` and `fondovi.gov.hr` the steps come prefilled from the
-official eFZOEU manual: step 1 „Podnesi prijavu" expects „Jeste li sigurni",
-step 2 `/^da\b/` expects „Prijava uspješno podnesena". Calibrate them on the
+official eFZOEU manual: step 1 „Podnesi prijavu", step 2 `/^da\b/` for the
+confirm dialog, success text „Prijava uspješno podnesena". Calibrate them on the
 real page with the picker before the day.
 
 ## Terms of use before going live
@@ -132,8 +132,8 @@ before opening. Live and manual mode refuse to arm without a valid sync.
 
 ## Safety net
 
-- A step counts as done when the expected text, the success text, or the next
-  step's button shows up, so changed dialog wording does not stall the run.
+- A step counts as done when the success text or the next step's button shows
+  up, so changed dialog wording does not stall the run.
 - Only text that is actually rendered counts. Text inside closed dialogs kept in
   the DOM is ignored.
 - Nothing that reads like cancel is ever clicked, whether found by selector or
