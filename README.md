@@ -146,8 +146,12 @@ before opening. Live and manual mode refuse to arm without a valid sync.
   against a stale element.
 - The last step is single shot. Persisted state is cleared before it, so a
   reload in the same instant can never trigger a second submit.
-- Stale armed state is discarded when the opening time has passed or the state
-  is older than 15 minutes.
+- Arming is refused while any step has no button, so an empty step can never
+  turn the step before it into a click loop.
+- An armed run resumes after a reload only in the tab that armed it. Other tabs
+  of the same site leave it alone. A waiting run is dropped once its opening
+  time is more than a minute past. A run that is already clicking or reloading
+  is dropped 15 minutes after it started, however early it was armed.
 - While armed the tab warns loudly if it is hidden and alerts when the page
   shows a session-expired message (editable under "sigurnost" / "safety").
 
