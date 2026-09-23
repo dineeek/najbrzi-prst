@@ -272,8 +272,11 @@
   "set_opening_time": {
     "message": "Set the opening date and time"
   },
-  "pick_at_least_one": {
-    "message": "Pick at least one button"
+  "step_needs_button": {
+    "message": "Step $1 has no button. Pick one or remove the step."
+  },
+  "arm_failed": {
+    "message": "Arming failed: $1"
   },
   "opening_passed": {
     "message": "The opening time has passed. Use „LIVE now\" or set a new time."
@@ -286,6 +289,9 @@
   },
   "stale_discarded": {
     "message": "Old armed state discarded"
+  },
+  "armed_in_other_tab": {
+    "message": "Armed state belongs to another tab of this site and is not resumed here. If that tab is closed, arm again."
   },
   "resuming": {
     "message": "Resuming after reload (step $1, reloaded $2×)"

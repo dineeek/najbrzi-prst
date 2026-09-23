@@ -101,6 +101,21 @@ describe('Overlay', () => {
     overlay.destroy();
   });
 
+  it('moves the fire time as soon as the offset changes', () => {
+    const task = defaultTask();
+    task.openingWallTime = '2026-10-01T10:00:00';
+    const overlay = new Overlay(task, callbacks());
+    overlay.mount();
+    const opening = overlay.fireAt;
+    const offset = overlay.root.querySelector<HTMLInputElement>(
+      'input[type="number"]'
+    )!;
+    offset.value = '-250';
+    offset.dispatchEvent(new Event('change'));
+    expect(overlay.fireAt).toBe(opening - 250);
+    overlay.destroy();
+  });
+
   it('keeps the lock after a language rebuild while armed', () => {
     const overlay = new Overlay(defaultTask(), callbacks());
     overlay.mount();

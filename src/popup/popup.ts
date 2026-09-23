@@ -122,7 +122,7 @@ function languageRow(): HTMLElement {
 async function render(): Promise<void> {
   const root = document.getElementById('root');
   if (!root) return;
-  setLanguage(await loadLanguage());
+  document.documentElement.lang = setLanguage(await loadLanguage());
   const main = el('main');
   main.append(el('h1', t('panel_title')));
   const tab = await activeTab();

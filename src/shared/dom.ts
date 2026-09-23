@@ -235,19 +235,3 @@ export function waitForTarget(
     options
   );
 }
-
-export function waitForAnyText(
-  patterns: string[],
-  timeoutMs: number,
-  signal?: AbortSignal
-): Promise<string | null> {
-  return waitFor(() => matchAnyText(patterns), { timeoutMs, signal });
-}
-
-export async function waitForText(
-  text: string,
-  timeoutMs: number,
-  signal?: AbortSignal
-): Promise<boolean> {
-  return (await waitForAnyText([text], timeoutMs, signal)) !== null;
-}

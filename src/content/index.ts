@@ -1,4 +1,11 @@
-import type { RunMode, RunnerEvent, StepResult, Task } from '../shared/models';
+import type {
+  ArmedState,
+  RunMode,
+  RunnerEvent,
+  StepResult,
+  Task
+} from '../shared/models';
+import { stepWithoutButton } from '../shared/models';
 import {
   isLanguageChange,
   loadArmed,
@@ -35,6 +42,24 @@ const origin = location.origin;
 const RESYNC_MS = 5 * 60 * 1000;
 const FINAL_RESYNC_BEFORE_MS = 40 * 1000;
 const COARSE_SYNC_MS = 300;
+const TAB_RUN_KEY = 'najbrzi-prst:run';
+
+function readTabRun(): string | null {
+  try {
+    return sessionStorage.getItem(TAB_RUN_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function rememberTabRun(state: ArmedState | null): void {
+  if (!state) return;
+  try {
+    sessionStorage.setItem(TAB_RUN_KEY, state.runId);
+  } catch {
+    return;
+  }
+}
 
 function bodyReady(): Promise<void> {
   return new Promise(resolve => {
@@ -357,7 +382,10 @@ async function main(): Promise<void> {
         isReloading = true;
         location.reload();
       },
-      persist: state => saveArmed(origin, state),
+      persist: state => {
+        rememberTabRun(state);
+        return saveArmed(origin, state);
+      },
       emit: onEvent,
       highlight: el => overlay.flash(el),
       handOver: el => {
@@ -412,6 +440,10 @@ async function main(): Promise<void> {
       runner = makeRunner();
       await runner.arm(mode, isNow);
       if (!isNow) scheduleResync();
+    } catch (error) {
+      runner = null;
+      overlay.setArmed(null);
+      overlay.log(t('arm_failed', String(error)), 'bad');
     } finally {
       isArming = false;
     }
@@ -422,8 +454,9 @@ async function main(): Promise<void> {
       overlay.log(t('set_opening_time'), 'bad');
       return false;
     }
-    if (!task.steps.some(step => step.target.selector || step.target.text)) {
-      overlay.log(t('pick_at_least_one'), 'bad');
+    const emptyStep = stepWithoutButton(task.steps);
+    if (emptyStep >= 0) {
+      overlay.log(t('step_needs_button', emptyStep + 1), 'bad');
       return false;
     }
     if (!isNow && mode === 'live' && overlay.fireAt < clock.now() - 60_000) {
@@ -439,11 +472,14 @@ async function main(): Promise<void> {
   if (armed) {
     const verdict = resumeVerdict(
       armed,
+      readTabRun(),
       overlay.fireAt,
       clock.now(),
       Date.now()
     );
-    if (verdict !== 'resume') {
+    if (verdict === 'other-tab') {
+      overlay.log(t('armed_in_other_tab'), 'warn');
+    } else if (verdict !== 'resume') {
       await saveArmed(origin, null);
       overlay.log(
         t(verdict === 'past' ? 'stale_past' : 'stale_discarded'),
@@ -465,8 +501,39 @@ async function main(): Promise<void> {
   };
   requestAnimationFrame(frame);
 
+  const pageListeners = new AbortController();
+
+  function onStorageChange(
+    changes: Record<string, chrome.storage.StorageChange>,
+    area: string
+  ): void {
+    if (area !== 'local') return;
+    const language = isLanguageChange(changes);
+    if (language) {
+      setLanguage(language);
+      overlay.rebuild();
+    }
+  }
+
+  function onPopupMessage(
+    message: PopupMessage,
+    _sender: chrome.runtime.MessageSender,
+    reply: (value: PanelStateReply) => void
+  ): void {
+    if (message.type === 'shutdown') {
+      void shutdown();
+      reply({ isPanelOpen: false, isArmed: false });
+      return;
+    }
+    if (message.type === 'toggle-panel') overlay.setOpen(!overlay.isOpen);
+    reply({ isPanelOpen: overlay.isOpen, isArmed: !!runner?.isArmed });
+  }
+
   async function shutdown(): Promise<void> {
     isAlive = false;
+    pageListeners.abort();
+    chrome.storage.onChanged.removeListener(onStorageChange);
+    chrome.runtime.onMessage.removeListener(onPopupMessage);
     await runner?.stop();
     runner = null;
     stopWatching();
@@ -475,42 +542,28 @@ async function main(): Promise<void> {
     window.__najbrziPrst = false;
   }
 
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && runner?.isArmed) void runner.stop();
-  });
-
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && runner?.isArmed) void holdWakeLock();
-    if (document.hidden && runner?.isArmed && !isReloading) {
-      overlay.log(t('tab_hidden'), 'bad');
-      beep(2);
-    }
-  });
-
-  chrome.storage.onChanged.addListener((changes, area) => {
-    if (area !== 'local') return;
-    const language = isLanguageChange(changes);
-    if (language) {
-      setLanguage(language);
-      overlay.rebuild();
-    }
-  });
-
-  chrome.runtime.onMessage.addListener(
-    (
-      message: PopupMessage,
-      _sender,
-      reply: (value: PanelStateReply) => void
-    ) => {
-      if (message.type === 'shutdown') {
-        void shutdown();
-        reply({ isPanelOpen: false, isArmed: false });
-        return;
-      }
-      if (message.type === 'toggle-panel') overlay.setOpen(!overlay.isOpen);
-      reply({ isPanelOpen: overlay.isOpen, isArmed: !!runner?.isArmed });
-    }
+  document.addEventListener(
+    'keydown',
+    event => {
+      if (event.key === 'Escape' && runner?.isArmed) void runner.stop();
+    },
+    { signal: pageListeners.signal }
   );
+
+  document.addEventListener(
+    'visibilitychange',
+    () => {
+      if (!document.hidden && runner?.isArmed) void holdWakeLock();
+      if (document.hidden && runner?.isArmed && !isReloading) {
+        overlay.log(t('tab_hidden'), 'bad');
+        beep(2);
+      }
+    },
+    { signal: pageListeners.signal }
+  );
+
+  chrome.storage.onChanged.addListener(onStorageChange);
+  chrome.runtime.onMessage.addListener(onPopupMessage);
 }
 
 if (!window.__najbrziPrst) {

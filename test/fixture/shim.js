@@ -19,10 +19,13 @@
       sendMessage: async message => {
         window.__shimMessages.push(message);
       },
-      onMessage: { addListener() {} },
+      onMessage: { addListener() {}, removeListener() {} },
       getURL: path => path
     },
-    storage: { local: store, onChanged: { addListener() {} } },
+    storage: {
+      local: store,
+      onChanged: { addListener() {}, removeListener() {} }
+    },
     i18n: { getMessage: () => '' }
   };
 })();

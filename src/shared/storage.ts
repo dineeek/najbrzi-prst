@@ -90,11 +90,12 @@ export async function loadArmed(origin: string): Promise<ArmedState | null> {
   const stored = await read<Partial<ArmedState>>(key('armed', origin));
   if (!stored || !stored.mode || !stored.phase) return null;
   return {
+    runId: str(stored.runId),
     mode: stored.mode,
     phase: stored.phase,
     stepIndex: num(stored.stepIndex, 0, 0),
     reloads: num(stored.reloads, 0, 0),
-    armedAt: num(stored.armedAt, 0),
+    phaseStartedAt: num(stored.phaseStartedAt, 0),
     results: Array.isArray(stored.results) ? stored.results : []
   };
 }

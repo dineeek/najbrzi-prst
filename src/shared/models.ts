@@ -48,11 +48,12 @@ export interface StepResult {
 }
 
 export interface ArmedState {
+  runId: string;
   mode: RunMode;
   phase: RunPhase;
   stepIndex: number;
   reloads: number;
-  armedAt: number;
+  phaseStartedAt: number;
   results: StepResult[];
 }
 
@@ -90,13 +91,17 @@ export function isEfzoeuHost(host: string): boolean {
   );
 }
 
+export function newId(): string {
+  return Math.random().toString(36).slice(2, 10);
+}
+
 export function emptyTarget(): Target {
   return { selector: '', text: '', tag: 'button' };
 }
 
 export function newStep(label: string, text: string): Step {
   return {
-    id: Math.random().toString(36).slice(2, 10),
+    id: newId(),
     label,
     target: { ...emptyTarget(), text },
     timeoutMs: 15000,
@@ -104,6 +109,12 @@ export function newStep(label: string, text: string): Step {
     retryIntervalMs: 400,
     settleMs: 700
   };
+}
+
+export function stepWithoutButton(steps: Step[]): number {
+  return steps.findIndex(
+    step => !step.target.selector.trim() && !step.target.text.trim()
+  );
 }
 
 function baseTask(

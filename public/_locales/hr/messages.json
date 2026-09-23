@@ -272,8 +272,11 @@
   "set_opening_time": {
     "message": "Postavi datum i vrijeme otvaranja"
   },
-  "pick_at_least_one": {
-    "message": "Odaberi barem jedan gumb"
+  "step_needs_button": {
+    "message": "Korak $1 nema gumb. Odaberi ga ili ukloni korak."
+  },
+  "arm_failed": {
+    "message": "Aktiviranje nije uspjelo: $1"
   },
   "opening_passed": {
     "message": "Vrijeme otvaranja je prošlo. Koristi „UŽIVO odmah\" ili postavi novo vrijeme."
@@ -286,6 +289,9 @@
   },
   "stale_discarded": {
     "message": "Staro aktivno stanje odbačeno"
+  },
+  "armed_in_other_tab": {
+    "message": "Aktivno stanje pripada drugoj kartici ove stranice i ovdje se ne nastavlja. Ako je ta kartica zatvorena, aktiviraj ponovno."
   },
   "resuming": {
     "message": "Nastavljam nakon osvježavanja (korak $1, osvježeno $2×)"

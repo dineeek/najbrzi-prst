@@ -3,10 +3,9 @@ import {
   clickElement,
   findByText,
   isEnabled,
+  matchAnyText,
   resolveTarget,
-  waitForAnyText,
-  waitForTarget,
-  waitForText
+  waitForTarget
 } from '../shared/dom';
 import { mockLayout } from './__mocks__/layout';
 
@@ -216,51 +215,37 @@ describe('waitForTarget', () => {
   });
 });
 
-describe('waitForText', () => {
-  it('resolves true when the text appears', async () => {
-    document.body.innerHTML = '<div id="r"></div>';
-    setTimeout(() => {
-      document.getElementById('r')!.textContent = 'Prijava uspješno podnesena';
-    }, 20);
-    expect(await waitForText('uspješno podnesena', 500)).toBe(true);
-  });
-
-  it('ignores text hidden through a stylesheet rule', async () => {
+describe('matchAnyText', () => {
+  it('ignores text hidden through a stylesheet rule', () => {
     document.body.innerHTML = `
       <style>.closed { display: none; }</style>
-      <div class="closed">Prijava uspješno podnesena</div>
-      <div id="r"></div>`;
-    expect(await waitForText('uspješno podnesena', 40)).toBe(false);
+      <div class="closed">Prijava uspješno podnesena</div>`;
+    expect(matchAnyText(['uspješno podnesena'])).toBeNull();
     document.querySelector('.closed')!.classList.remove('closed');
-    expect(await waitForText('uspješno podnesena', 200)).toBe(true);
+    expect(matchAnyText(['uspješno podnesena'])).toBe('uspješno podnesena');
   });
 
-  it('reads text rendered inside shadow DOM', async () => {
+  it('reads text rendered inside shadow DOM', () => {
     document.body.innerHTML = '<div id="host"></div>';
     const shadow = document
       .getElementById('host')!
       .attachShadow({ mode: 'open' });
     shadow.innerHTML = '<p>Prijava uspješno podnesena</p>';
-    expect(await waitForText('uspješno podnesena', 100)).toBe(true);
+    expect(matchAnyText(['uspješno podnesena'])).toBe('uspješno podnesena');
   });
 
-  it('waitForAnyText reports which text matched and ignores hidden text', async () => {
-    document.body.innerHTML =
-      '<div hidden>Prijava uspješno podnesena</div><div id="r"></div>';
-    setTimeout(() => {
-      document.getElementById('r')!.textContent =
-        'Jeste li sigurni da želite podnijeti prijavu?';
-    }, 20);
+  it('reports which text matched and ignores hidden text', () => {
+    document.body.innerHTML = `
+      <div hidden>Prijava uspješno podnesena</div>
+      <div>Jeste li sigurni da želite podnijeti prijavu?</div>`;
     expect(
-      await waitForAnyText(
-        ['Prijava uspješno podnesena', 'Jeste li sigurni'],
-        500
-      )
+      matchAnyText(['Prijava uspješno podnesena', 'Jeste li sigurni'])
     ).toBe('Jeste li sigurni');
   });
 
-  it('resolves false on timeout', async () => {
-    document.body.innerHTML = '<div></div>';
-    expect(await waitForText('nikad', 30)).toBe(false);
+  it('returns null when nothing matches or every pattern is blank', () => {
+    document.body.innerHTML = '<div>Prijava</div>';
+    expect(matchAnyText(['nikad'])).toBeNull();
+    expect(matchAnyText(['', '  '])).toBeNull();
   });
 });

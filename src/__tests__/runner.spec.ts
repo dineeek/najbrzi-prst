@@ -272,7 +272,8 @@ describe('Runner', () => {
       phase: 'executing',
       stepIndex: 0,
       reloads: 1,
-      armedAt: Date.now(),
+      runId: 'tab-a',
+      phaseStartedAt: Date.now(),
       results: []
     });
     await finished(events);
@@ -294,11 +295,30 @@ describe('Runner', () => {
       phase: 'waiting',
       stepIndex: 0,
       reloads: 0,
-      armedAt: Date.now(),
+      runId: 'tab-a',
+      phaseStartedAt: Date.now(),
       results: []
     });
     await finished(events);
     expect(events.at(-1)?.type).toBe('finished');
+  });
+
+  it('stamps the executing phase with the moment the opening time arrives', async () => {
+    const { deps: d, events } = deps();
+    document.getElementById('submit')!.removeAttribute('disabled');
+    const fireAt = Date.now() + 60;
+    const runner = new Runner(fastTask(), fireAt, d);
+    await runner.arm('live');
+    await finished(events);
+    const states = vi
+      .mocked(d.persist)
+      .mock.calls.map(([state]) => state)
+      .filter(state => state !== null);
+    const waiting = states.find(state => state.phase === 'waiting');
+    const executing = states.find(state => state.phase === 'executing');
+    expect(waiting?.phaseStartedAt).toBeLessThan(fireAt);
+    expect(executing?.phaseStartedAt).toBeGreaterThanOrEqual(fireAt);
+    expect(executing?.runId).toBe(waiting?.runId);
   });
 
   it('clears the persisted state before clicking the final confirm', async () => {

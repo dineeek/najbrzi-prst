@@ -6,6 +6,7 @@ import type {
   StepResult,
   Task
 } from '../shared/models';
+import { newId } from '../shared/models';
 import {
   clickElement,
   matchAnyText,
@@ -59,11 +60,12 @@ export class Runner {
   arm(mode: RunMode, fireNow = false): Promise<void> {
     return this.start(
       {
+        runId: newId(),
         mode,
         phase: fireNow ? 'executing' : 'waiting',
         stepIndex: 0,
         reloads: 0,
-        armedAt: Date.now(),
+        phaseStartedAt: Date.now(),
         results: []
       },
       fireNow
@@ -112,7 +114,11 @@ export class Runner {
           throw new Error(t('set_opening_time'));
         await this.waitUntil(this.fireAtServerMs, signal);
         if (signal.aborted || !this.state) return;
-        this.state = { ...this.state, phase: 'executing' };
+        this.state = {
+          ...this.state,
+          phase: 'executing',
+          phaseStartedAt: Date.now()
+        };
         await this.persist();
       }
       await this.execute(signal);

@@ -1,6 +1,7 @@
 import type { ClockSync, RunMode, Step, Task } from '../shared/models';
 import { newStep } from '../shared/models';
 import { isEnabled, isVisible, resolveTarget } from '../shared/dom';
+import { visibleText } from '../shared/selector';
 import { LANGUAGES, getLanguage, t, type Language } from '../shared/i18n';
 import {
   ZONE,
@@ -325,10 +326,10 @@ export class Overlay {
     };
     dateInput.addEventListener('change', onOpening);
     timeInput.addEventListener('change', onOpening);
-    const leadInput = this.numberInput(
-      this.task.leadMs,
-      value => (this.task.leadMs = value)
-    );
+    const leadInput = this.numberInput(this.task.leadMs, value => {
+      this.task.leadMs = value;
+      this.updateFireAt();
+    });
     const reloadOn = h('input', { type: 'checkbox' });
     reloadOn.checked = this.task.reload.isEnabled;
     reloadOn.addEventListener('change', () => {
@@ -657,7 +658,7 @@ export class Overlay {
         'test_found',
         index + 1,
         found.el.tagName.toLowerCase(),
-        (found.el.textContent ?? '').trim(),
+        visibleText(found.el),
         t(found.via === 'selector' ? 'via_selector' : 'via_text'),
         t(isEnabled(found.el) ? 'enabled' : 'disabled')
       )
